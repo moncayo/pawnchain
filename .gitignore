@@ -27,3 +27,6 @@ yarn-error.log*
 
 # environment variables
 .env
+
+# pgn files that we don't want in the git
+*.pgn

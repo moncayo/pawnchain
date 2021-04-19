@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-// TODO set functions so only owner of contract can call
+// TODO: set functions so only owner of contract can call
 
 pragma solidity ^0.8.0;
 
@@ -10,6 +10,7 @@ contract Pawnchain is ERC1155 {
     uint256 _tokenCounter;
     uint256 _myETH;
     
+    // _hashes and _pgns are probably redundant...
     mapping(string => uint256) private _hashes;
     mapping(uint256 => string) private _pgns;
     mapping(uint256 => uint256) private _prices;
@@ -39,10 +40,13 @@ contract Pawnchain is ERC1155 {
     }
 
     /**
-    
+        @dev Select a token to buy from those available
+
+        @param _tokenID - token desired to be bought
+        @param _amount - amount of token to be bought
      */
     function vendingMachine(uint256 _tokenID, uint256 _amount) external payable {
-        require(msg.value == _prices[_tokenID], "You did not pay the correct amount!");
+        require(msg.value == (_amount * _prices[_tokenID]), "You did not pay the correct amount!");
 
         safeTransferFrom(address(this), msg.sender, _tokenID, _amount, "");
         _myETH = _myETH + msg.value;
@@ -50,7 +54,7 @@ contract Pawnchain is ERC1155 {
 
     /**
     
-    */
+     */
     function withdraw() external {
         (bool success,) = payable(msg.sender).call{value: _myETH}("");
         require(success, "Something went wrong...");
@@ -60,7 +64,8 @@ contract Pawnchain is ERC1155 {
 
     /**
 
-    */
+    
+     */
     function transferOwnership() external {
         
     }

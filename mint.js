@@ -3,7 +3,10 @@ require('dotenv').config();
 const FormData = require('form-data');
 const axios = require('axios');
 const fs = require('fs');
+const path = require('path');
+
 const { Chess } = require('chess.js');
+const { ethers } = require('ethers');
 
 const uploadPGN = async (filename) => {
     const API_URL = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
@@ -35,20 +38,23 @@ const uploadPGN = async (filename) => {
     return ipfs_data;
 }
 
-const { ethers } = require('ethers');
+const mintToken = async (filename, amount, price) => {
+    //const provider = new ethers.providers.JsonRpcProvider("INFURIA API");
+    const provider = new ethers.providers.JsonRpcProvider("HTTP://127.0.0.1:7545");
+    
+    const signer = provider.getSigner(1); //
+        
+    const pawnchainAddress = process.env.CONTRACT_ADDRESS;
+    
+    const pawnchainJsonFile = path.join(__dirname, 'build', 'contracts', 'Pawnchain.json')
+    const pawnchainAbi = require(pawnchainJsonFile).abi;
+    const pawnchainContract = new ethers.Contract(pawnchainAddress, pawnchainAbi, provider);
+    const pawnchainWithSigner = pawnchainContract.connect(signer);
 
-const provider = new ethers.providers.JsonRpcProvider("HTTP://127.0.0.1:7545");
-
-const signer = provider.getSigner(1);
-
-const path = require('path');
-const pawnchainAddress = "0x609f8D342AD9fD55CeC63Ec52ed2fADfeF774cdA"
-
-const pawnchainJsonFile = path.join(__dirname, 'build', 'contracts', 'Pawnchain.json')
-const pawnchainAbi = require(pawnchainJsonFile).abi;
-const pawnchainContract = new ethers.Contract(pawnchainAddress, pawnchainAbi, provider);
-const contractWithSigner = pawnchainContract.connect(signer);
-
-contractWithSigner
-    .mintPGN("test_hash", 1, 1)
-    .then(res => console.log(res));
+    const pinataResponse = await uploadPGN(filename);
+    
+    pawnchainWithSigner
+        .mintPGN(pinataResponse.IpfsHash, amount, price)
+        .then(res => { return res.hash; })
+        .catch(e => console.log(e));
+}
