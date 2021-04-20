@@ -29,8 +29,9 @@ contract Pawnchain is ERC1155 {
     function mintPGN(string memory _hash, uint256 _amount, uint256 _price) external {
         require(_hashes[_hash] != 1, "This hash already exists");
         
-        // have the contract own the tokens
+        // Tokens belong to minter and contract is approved to sell
         _mint(msg.sender, _tokenCounter, _amount, "");
+        setApprovalForAll(address(this), true);
 
         _hashes[_hash] = 1;
         _prices[_tokenCounter] = _price;

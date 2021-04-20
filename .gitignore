@@ -30,3 +30,4 @@ yarn-error.log*
 
 # pgn files that we don't want in the git
 *.pgn
+/pgn
