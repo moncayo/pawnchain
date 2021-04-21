@@ -1,9 +1,10 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 
 const FormData = require('form-data');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const spawn = require('child_process').spawn;
 
 const { Chess } = require('chess.js');
 const { ethers } = require('ethers');
@@ -18,6 +19,10 @@ const uploadPGN = async (filename) => {
     chess.delete_comments();
 
     await fs.writeFileSync(filename, chess.pgn()); 
+
+    // generate gif
+    const scriptPath = path.join(__dirname, 'chessgif.py');
+    await spawn('python3', [scriptPath, filename]);
 
     const filestream = fs.createReadStream(filename);
     let data = new FormData();
@@ -58,3 +63,7 @@ const mintToken = async (filename, amount, price) => {
         .then(res => { return res.hash; })
         .catch(e => console.log(e));
 }
+
+
+//const pgnPath = path.join('./', 'pgn', 'gameofthecentury.pgn');
+//uploadPGN(pgnPath);
