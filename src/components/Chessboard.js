@@ -84,7 +84,8 @@ const ChessboardWrapper = props => {
         <div>
             <Chessboard 
                 position={board}
-                orientation={orientation} 
+                orientation={orientation}
+                allowDrag={() => false} 
             />
             <button onClick={onClickReset}>First Move</button>        
             <button onClick={onClickBack}>Back</button>     

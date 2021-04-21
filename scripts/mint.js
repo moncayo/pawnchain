@@ -9,8 +9,10 @@ const spawn = require('child_process').spawn;
 const { Chess } = require('chess.js');
 const { ethers } = require('ethers');
 
+const API_URL = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
+
+// TODO: add console.log()'s
 const uploadPGN = async (filename) => {
-    const API_URL = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
     const chess = new Chess();
 
     const pgnBuf = await fs.readFileSync(filename);
@@ -24,6 +26,37 @@ const uploadPGN = async (filename) => {
     const scriptPath = path.join(__dirname, 'chessgif.py');
     await spawn('python3', [scriptPath, filename]);
 
+    const filestream = fs.createReadStream(filename);
+    let data = new FormData();
+    data.append('file', filestream);
+
+    const gifPath = path.join('./', 'gif', 'gameofthecentury.gif');
+    const gif_data = await uploadGif(gifPath);
+
+    const metadata = JSON.stringify({
+        name : path.basename(filename),
+        keyvalues: {
+            gif: gif_data.IpfsHash
+        }
+    });
+    data.append('pinataMetadata', metadata);
+
+    const ipfs_data = await axios
+        .post(API_URL, data, {
+            maxBodyLength: 'Infinity',
+            headers: {
+                'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+                pinata_api_key: process.env.API_KEY,
+                pinata_secret_api_key: process.env.SECRET_KEY
+            },
+        })
+        .then(res => { return res.data })
+        .catch(err => console.log(err));
+
+    return ipfs_data;
+}
+
+const uploadGif = async (filename) => {
     const filestream = fs.createReadStream(filename);
     let data = new FormData();
     data.append('file', filestream);
@@ -63,7 +96,3 @@ const mintToken = async (filename, amount, price) => {
         .then(res => { return res.hash; })
         .catch(e => console.log(e));
 }
-
-
-//const pgnPath = path.join('./', 'pgn', 'gameofthecentury.pgn');
-//uploadPGN(pgnPath);
