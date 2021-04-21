@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'; 
+import React, { useCallback, useEffect, useState } from 'react'; 
 import Chessboard from 'chessboardjsx';
 
 const ipfsHttpClient = require('ipfs-http-client');
@@ -9,12 +9,15 @@ const chess = new Chess();
 
 // TODO: separate chessboard component
 const MainPage = () => {    
+    const [pgn, setPgn] = useState('')
     const [board, setBoard] = useState('')
-    const [lastMoves, setLastMoves] = useState([]);
+    const [lastMoves, setLastMoves] = useState([]); // Last in First Out
+    const [autoPlay, toggleAutoPlay] = useState(false);
+    const [orientation, setOrientation] = useState('white');
 
     const onClickBack = () => {
         const undo_move = chess.undo();
-        if (undo_move != null) {
+        if (undo_move) {
             setLastMoves(lastMoves => [...lastMoves, undo_move]);
             setBoard(chess.fen());
         }
@@ -34,24 +37,61 @@ const MainPage = () => {
         setBoard(chess.fen());
     }
 
+    const onClickLastMove = () => {
+        setLastMoves([]);
+        chess.load_pgn(pgn);
+        setBoard(chess.fen());
+    }
+
+    const onClickAutoplay = () => {
+        onClickReset();
+        toggleAutoPlay(true);
+    }
+
+    const flipOrientation = () => {
+        orientation === 'white' ? setOrientation('black') : setOrientation('white');
+    }
+
     useEffect(() => {
         async function startIPFS() {
-            const data = await ipfs.get('QmTY2QUjwuHhGmSkShVzydCN8yyitYNGhLmA57VwAxD4bz');
+            const CID = 'QmTY2QUjwuHhGmSkShVzydCN8yyitYNGhLmA57VwAxD4bz';
+            const data = await ipfs.get(CID);
             chess.load_pgn(data[0].content.toString());
+
+            setPgn(chess.pgn());
             setBoard(chess.fen());
         }
 
         startIPFS();
+
     }, []);
+
+    useEffect(() => {
+        let interval = null;
+
+        if (autoPlay) {
+            interval = setInterval(() => {
+                onClickForward();
+            }, 1000);             
+        }
+        
+        if (lastMoves.length === 0 || !autoPlay) {
+            clearInterval(interval); 
+        }
+    }, [autoPlay, lastMoves]);
 
     return (
         <div>
             <Chessboard 
-                position={board} 
+                position={board}
+                orientation={orientation} 
             />
-            <button onClick={onClickBack}>Back</button>            
+            <button onClick={onClickReset}>First Move</button>        
+            <button onClick={onClickBack}>Back</button>     
+            <button onClick={onClickAutoplay}>Auto play</button>
             <button onClick={onClickForward}>Forward</button>    
-            <button onClick={onClickReset}>Reset Board</button>        
+            <button onClick={onClickLastMove}>Last Move</button>
+            <button onClick={flipOrientation}>Flip board</button>
         </div>
     );
 };
