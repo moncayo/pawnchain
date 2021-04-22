@@ -32,7 +32,7 @@ const uploadPGN = async (filename) => {
     let data = new FormData();
     data.append('file', filestream);
 
-    const gifPath = path.join('./', 'gif', fileParse.name + '.gif');
+    const gifPath = path.join(__dirname, 'gif', fileParse.name + '.gif');
     const gif_data = await uploadGif(gifPath);
 
     const metadata = JSON.stringify({

@@ -11,7 +11,6 @@ const ChessboardWrapper = props => {
     const [pgn, setPgn] = useState('')
     const [board, setBoard] = useState('')
     const [lastMoves, setLastMoves] = useState([]); // Last in First Out
-    const [autoPlay, toggleAutoPlay] = useState(false);
     const [orientation, setOrientation] = useState('white');
 
     const onClickBack = () => {
@@ -42,11 +41,6 @@ const ChessboardWrapper = props => {
         setBoard(chess.fen());
     }
 
-    const onClickAutoplay = () => {
-        onClickReset();
-        toggleAutoPlay(true);
-    }
-
     const flipOrientation = () => {
         orientation === 'white' ? setOrientation('black') : setOrientation('white');
     }
@@ -65,21 +59,6 @@ const ChessboardWrapper = props => {
 
     }, [props.CID]);
 
-    useEffect(() => {
-        let interval = null;
-
-        if (autoPlay) {
-            interval = setInterval(() => {
-                onClickForward();
-            }, 1000);             
-        }
-        
-        if (lastMoves.length === 0 || !autoPlay) {
-            clearInterval(interval); 
-            toggleAutoPlay(false);
-        }
-    }, [autoPlay, lastMoves]);
-
     return (
         <div>
             <Chessboard 
@@ -89,7 +68,6 @@ const ChessboardWrapper = props => {
             />
             <button onClick={onClickReset}>First Move</button>        
             <button onClick={onClickBack}>Back</button>     
-            <button onClick={onClickAutoplay}>Auto play</button>
             <button onClick={onClickForward}>Forward</button>    
             <button onClick={onClickLastMove}>Last Move</button>
             <button onClick={flipOrientation}>Flip board</button>
