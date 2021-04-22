@@ -7,7 +7,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Pawnchain is ERC721URIStorage {
+contract Pawnchain is ERC721URIStorage, Ownable {
     uint256 public  _tokenCounter;
     uint256 private _myETH;
     
@@ -24,7 +24,7 @@ contract Pawnchain is ERC721URIStorage {
         @param _hash - hash of PGN data hosted on IPFS
         @param _price - price to associate with game collectible
      */
-    function mintPGN(string memory _hash, uint256 _price) external {
+    function mintPGN(string memory _hash, uint256 _price) external onlyOwner {
         require(_hashes[_hash] != 1, "This hash already exists");
 
         // Tokens belong to minter and contract is approved to sell
@@ -52,19 +52,10 @@ contract Pawnchain is ERC721URIStorage {
     /**
     
      */
-    function withdraw() external {
+    function withdraw() external onlyOwner {
         (bool success,) = payable(msg.sender).call{value: _myETH}("");
         require(success, "Something went wrong...");
 
         _myETH = 0;
     }
-
-    /**
-
-    
-     */
-    function transferOwnership() external {
-        
-    }
-
 }
