@@ -13,6 +13,8 @@ const API_URL = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
 
 // TODO: add console.log()'s
 const uploadPGN = async (filename) => {
+    const fileParse = path.parse(filename);
+
     const chess = new Chess();
 
     const pgnBuf = await fs.readFileSync(filename);
@@ -30,7 +32,7 @@ const uploadPGN = async (filename) => {
     let data = new FormData();
     data.append('file', filestream);
 
-    const gifPath = path.join('./', 'gif', 'gameofthecentury.gif');
+    const gifPath = path.join('./', 'gif', fileParse.name + '.gif');
     const gif_data = await uploadGif(gifPath);
 
     const metadata = JSON.stringify({
