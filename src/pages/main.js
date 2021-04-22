@@ -1,8 +1,21 @@
-import React from 'react'; 
+import React, { useEffect } from 'react'; 
 import ChessboardWrapper from '../components/Chessboard';
 import Preview from '../components/Preview';
 
+const ipfsHttpClient = require('ipfs-http-client');
+const ipfs = ipfsHttpClient("ipfs.infura.io");
+
 const MainPage = () => {    
+
+    useEffect(() => {
+        async function startIPFS() {
+            
+        }
+
+        startIPFS();
+
+    }, []);
+
     return (
         <div>
             <ChessboardWrapper 

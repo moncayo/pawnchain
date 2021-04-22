@@ -86,7 +86,7 @@ const mintToken = async (filename, amount, price) => {
         
     const pawnchainAddress = process.env.CONTRACT_ADDRESS;
     
-    const pawnchainJsonFile = path.join(__dirname, 'build', 'contracts', 'Pawnchain.json')
+    const pawnchainJsonFile = path.join('../', 'build', 'contracts', 'Pawnchain.json')
     const pawnchainAbi = require(pawnchainJsonFile).abi;
     const pawnchainContract = new ethers.Contract(pawnchainAddress, pawnchainAbi, provider);
     const pawnchainWithSigner = pawnchainContract.connect(signer);
