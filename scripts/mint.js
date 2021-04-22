@@ -78,7 +78,7 @@ const uploadGif = async (filename) => {
     return ipfs_data;
 }
 
-const mintToken = async (filename, amount, price) => {
+const mintToken = async (filename, price) => {
     //const provider = new ethers.providers.JsonRpcProvider("INFURIA API");
     const provider = new ethers.providers.JsonRpcProvider("HTTP://127.0.0.1:7545");
     
@@ -94,7 +94,7 @@ const mintToken = async (filename, amount, price) => {
     const pinataResponse = await uploadPGN(filename);
     
     pawnchainWithSigner
-        .mintPGN(pinataResponse.IpfsHash, amount, price)
+        .mintPGN(pinataResponse.IpfsHash, price)
         .then(res => { return res.hash; })
         .catch(e => console.log(e));
 }

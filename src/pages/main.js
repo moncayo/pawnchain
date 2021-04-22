@@ -5,15 +5,20 @@ import Preview from '../components/Preview';
 const ipfsHttpClient = require('ipfs-http-client');
 const ipfs = ipfsHttpClient("ipfs.infura.io");
 
+const { ethers } = require('ethers');
+
+
+const provider = new ethers.providers.JsonRpcProvider("HTTP://127.0.0.1:7545");
+const signer = provider.getSigner(1);
+const pawnchainJsonFile = require('./Pawnchain.json')
+const pawnchainAbi = pawnchainJsonFile.abi;
+const pawnchainContract = new ethers.Contract("0xC69edc97581E4baA91Ff9E99aE3f790e62293aeE", pawnchainAbi, provider);
+const pawnchainWithSigner = pawnchainContract.connect(signer);
+
 const MainPage = () => {    
 
     useEffect(() => {
-        async function startIPFS() {
-            
-        }
-
-        startIPFS();
-
+        
     }, []);
 
     return (

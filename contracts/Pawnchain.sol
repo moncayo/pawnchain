@@ -16,7 +16,6 @@ contract Pawnchain is ERC721URIStorage {
 
     constructor() ERC721("Pawnchain", "PAWN") {
         _tokenCounter = 1;
-        setApprovalForAll(address(this), true);
     }
     
     /**
@@ -31,6 +30,7 @@ contract Pawnchain is ERC721URIStorage {
         // Tokens belong to minter and contract is approved to sell
         _safeMint(msg.sender, _tokenCounter);
         _setTokenURI(_tokenCounter, _hash);
+        approve(address(this), _tokenCounter);
 
         _hashes[_hash] = 1;
         _prices[_tokenCounter] = _price;

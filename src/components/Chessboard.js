@@ -25,11 +25,12 @@ const ChessboardWrapper = props => {
         const last_move = lastMoves.pop()
         if (last_move) {
             chess.move(last_move);
+            setBoard(chess.fen());
         }
-        setBoard(chess.fen());
     }
 
     const onClickReset = () => {
+        chess.load_pgn(pgn);
         setLastMoves(chess.history({ verbose: true }).reverse());
         chess.reset();
         setBoard(chess.fen());
