@@ -15,7 +15,7 @@ contract Pawnchain is ERC721URIStorage, Ownable {
     mapping(uint256 => uint256) public _prices;
 
     constructor() ERC721("Pawnchain", "PAWN") Ownable() {
-        _tokenCounter = 1;
+        _tokenCounter = 0;
     }
     
     /**
@@ -27,6 +27,8 @@ contract Pawnchain is ERC721URIStorage, Ownable {
     function mintPGN(string memory _hash, uint256 _price) external onlyOwner {
         require(_hashes[_hash] != 1, "This hash already exists");
 
+        _tokenCounter = _tokenCounter + 1;
+
         // Tokens belong to minter and contract is approved to sell
         _safeMint(msg.sender, _tokenCounter);
         _setTokenURI(_tokenCounter, _hash);
@@ -34,7 +36,6 @@ contract Pawnchain is ERC721URIStorage, Ownable {
 
         _hashes[_hash] = 1;
         _prices[_tokenCounter] = _price;
-        _tokenCounter = _tokenCounter + 1;
     }
 
     /**
@@ -50,7 +51,7 @@ contract Pawnchain is ERC721URIStorage, Ownable {
     }
 
     /**
-    
+        @dev Withdraw funds from contract
      */
     function withdraw() external onlyOwner {
         (bool success,) = payable(msg.sender).call{value: _myETH}("");
