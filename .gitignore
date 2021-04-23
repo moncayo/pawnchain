@@ -31,5 +31,6 @@ yarn-error.log*
 # pgn + gif files that we don't want in the git
 *.pgn
 *.gif
-/pgn
-/gif
+scripts/pgn
+scripts/gif
+scripts/desc

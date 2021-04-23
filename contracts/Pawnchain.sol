@@ -1,20 +1,20 @@
 // SPDX-License-Identifier: MIT
 
-// TODO: set functions so only owner of contract can call
-
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+// TODO: emit events
+// TODO: add ipfs:// _baseURI()
 contract Pawnchain is ERC721URIStorage, Ownable {
     uint256 public  _tokenCounter;
     uint256 private _myETH;
     
-    mapping(string => uint256) private _hashes;
-    mapping(uint256 => uint256) private _prices;
+    mapping(string => uint256) public _hashes;
+    mapping(uint256 => uint256) public _prices;
 
-    constructor() ERC721("Pawnchain", "PAWN") {
+    constructor() ERC721("Pawnchain", "PAWN") Ownable() {
         _tokenCounter = 1;
     }
     
