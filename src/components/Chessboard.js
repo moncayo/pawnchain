@@ -49,8 +49,8 @@ const ChessboardWrapper = props => {
     useEffect(() => {
         async function startIPFS() {
             const CID = props.CID;
-            const data = await ipfs.get(CID);
-            chess.load_pgn(data[0].content.toString());
+            const data = await ipfs.cat(CID);
+            chess.load_pgn(data.toString());
 
             setPgn(chess.pgn());
             setBoard(chess.fen());

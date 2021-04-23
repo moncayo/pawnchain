@@ -111,12 +111,12 @@ const scriptExecution = async (pgn_filename, price) => {
     spawn('python3', [scriptPath, pgn_filename]);
 
     // upload files to IPFS
-    const pgnData = await uploadToIPFS(pgn_filename)
-    console.log('pgn uploaded')
+    const pgnData = await uploadToIPFS(pgn_filename);
+    console.log('pgn uploaded');
 
-    const gifPath = path.join(__dirname, 'gif', parsedPath.name.concat('.gif'))
-    const gifData = await uploadToIPFS(gifPath)
-    console.log('gif uploaded')
+    const gifPath = path.join(__dirname, 'gif', parsedPath.name.concat('.gif'));
+    const gifData = await uploadToIPFS(gifPath);
+    console.log('gif uploaded');
 
     // adds (white) v. (black) to JSON data
     const headerData = chess.header();
