@@ -1,7 +1,9 @@
 import sys
 import pgn2gif
+import os
 
-filename = sys.argv[1].split('pgn/')[1].split('.pgn')[0]
+filename = sys.argv[1].split('.pgn')[0]
+rootDir = os.path.dirname(os.path.realpath(__file__))
 
 creator = pgn2gif.PgnToGifCreator(
     duration=1,
@@ -10,8 +12,15 @@ creator = pgn2gif.PgnToGifCreator(
 )
 
 creator.create_gif(
-    sys.argv[1], 
-    out_path="./gif/{}.gif".format(filename)
+    "{}/pgn/{}".format(
+        rootDir,
+        sys.argv[1]
+    ), 
+    
+    out_path="{}/gif/{}.gif".format(
+        rootDir,
+        filename
+    )
 )
 
 print('{}.gif created'.format(filename))
