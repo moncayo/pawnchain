@@ -3,11 +3,12 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 // TODO: emit events
 // TODO: add ipfs:// _baseURI()
-contract Pawnchain is ERC721URIStorage, Ownable {
+contract Pawnchain is ERC721URIStorage, Ownable, IERC721Receiver {
     uint256 public  _tokenCounter;
     uint256 private _myETH;
     
@@ -30,9 +31,8 @@ contract Pawnchain is ERC721URIStorage, Ownable {
         _tokenCounter = _tokenCounter + 1;
 
         // Tokens belong to minter and contract is approved to sell
-        _safeMint(msg.sender, _tokenCounter);
+        _safeMint(address(this), _tokenCounter);
         _setTokenURI(_tokenCounter, _hash);
-        approve(address(this), _tokenCounter);
 
         _hashes[_hash] = 1;
         _prices[_tokenCounter] = _price;
@@ -45,8 +45,9 @@ contract Pawnchain is ERC721URIStorage, Ownable {
      */
     function vendingMachine(uint256 _tokenID) external payable {
         require(msg.value == _prices[_tokenID], "You did not pay the correct amount!");
+        require(ownerOf(_tokenID) == address(this), "This token is no longer available");
 
-        safeTransferFrom(address(this), msg.sender, _tokenID);
+        _transfer(address(this), msg.sender, _tokenID);
         _myETH = _myETH + msg.value;
     }
 
@@ -59,4 +60,15 @@ contract Pawnchain is ERC721URIStorage, Ownable {
 
         _myETH = 0;
     }
+
+    /**
+        @dev Contract can handle receiving its own tokens
+     */
+    function onERC721Received(address, address, uint256 tokenID, bytes memory)
+        public
+        virtual
+        override
+        returns (bytes4) {
+            return this.onERC721Received.selector;
+        }
 }
