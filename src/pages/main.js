@@ -6,23 +6,36 @@ const ipfsHttpClient = require('ipfs-http-client');
 const ipfs = ipfsHttpClient("ipfs.infura.io");
 
 const { ethers } = require('ethers');
+const ethereum = window.ethereum;
 
-const provider = new ethers.providers.JsonRpcProvider("HTTP://127.0.0.1:7545");
-const signer = provider.getSigner(1);
+//const provider = new ethers.providers.JsonRpcProvider("HTTP://127.0.0.1:7545");
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const signer = provider.getSigner();
 const pawnchainJsonFile = require('./Pawnchain.json')
 const pawnchainAbi = pawnchainJsonFile.abi;
-const pawnchainContract = new ethers.Contract("0x612dB8d1037519617cAAb9D47F08fd7F4273A749", pawnchainAbi, provider);
+const pawnchainContract = new ethers.Contract("0x4FAf50fEE7809d61Eeb0b7B4C551634EeF4D55Af", pawnchainAbi, provider);
 const pawnchainWithSigner = pawnchainContract.connect(signer);
 
 const MainPage = () => {    
     const [JSONdata, setJSONdata] = useState([]);
     const [prices, setPrices] = useState([]);
+    const [address, setAddress] = useState('');
+
+    const connectWallet = async () => {
+        ethereum.request({ method: 'eth_requestAccounts' })
+                .then(wallet => setAddress(wallet[0]));
+    }
+
+    ethereum.on('accountsChanged', function (accounts) {
+        setAddress(accounts[0]);
+    });
     
     useEffect(() => {
         async function fetchContractData() {
             const tokenCount = await pawnchainWithSigner
                                         ._tokenCounter()
                                         .then(count => { return count.toNumber() })
+                                        .catch(e => console.log(e));
 
             for (let i = 1; i <= tokenCount; ++i) {
                 pawnchainWithSigner
@@ -46,12 +59,14 @@ const MainPage = () => {
                     })
             }
         }
-
         fetchContractData();
-    }, []);
+
+        pawnchainWithSigner.ownerOf(1).then(res => console.log(res));
+    }, [address]);
 
     return (
         <div>
+            <button onClick={connectWallet}>Connect Wallet</button>
             <ChessboardWrapper 
                 // TODO: replace with generic // replace with pgn string
                 // TODO: call ipfs-http-client from top level
@@ -63,6 +78,7 @@ const MainPage = () => {
                 gif={`https://ipfs.io/ipfs/${JSONdata[0].image}`}
                 header={JSONdata[0].name}
                 price={prices[0]}
+                account={address}
             />}
         </div>
     );
