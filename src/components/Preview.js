@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const { ethers } = require('ethers');
 
-const pawnchainAbi = require('../pages/Pawnchain.json').abi
+const pawnchainAbi = require('../abi/Pawnchain.json').abi
 
 const Preview = props => {
     const buyToken = () => {
@@ -19,7 +19,6 @@ const Preview = props => {
                 }
             ]
         })
-        .then(res => console.log(res))
         .catch(e => console.log(e));
     }
 
