@@ -73,7 +73,7 @@ const mintToken = async (hash, price) => {
     
     const signer = provider.getSigner(0); //
         
-    const pawnchainAddress = process.env.CONTRACT_ADDRESS;
+    const pawnchainAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
     
     const pawnchainJsonFile = path.join('../', 'build', 'contracts', 'Pawnchain.json')
     const pawnchainAbi = require(pawnchainJsonFile).abi;
