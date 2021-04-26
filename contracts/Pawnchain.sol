@@ -51,7 +51,6 @@ contract Pawnchain is ERC721URIStorage, Ownable, IERC721Receiver {
         require(ownerOf(_tokenID) == address(this), "This token is no longer available!");
 
         _transfer(address(this), msg.sender, _tokenID);
-        _myETH = _myETH + msg.value;
 
         emit tokenBought(_tokenID);
     }
