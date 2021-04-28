@@ -1,0 +1,15 @@
+.button-wrapper{
+    display: flex;
+    width: 100vw - 5px;
+    margin: 0;
+    justify-content: center;
+    align-content: center;
+    margin-top: 40px;
+}
+
+.chess-button{
+    width: 59px;
+    height: 59px;
+    border-radius: 15px;
+    margin: 0 15px 0 15px;
+}

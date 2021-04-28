@@ -1,0 +1,12 @@
+.img-preview{
+    display: flex;
+    margin: auto;
+    position: relative;
+    width: 350px;
+    height: auto;
+}
+
+.gif-wrapper{
+    display: flex;
+    flex-direction: column;
+}

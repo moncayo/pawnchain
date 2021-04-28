@@ -1,0 +1,42 @@
+.chess-wrapper{
+    width: 100vw -5px;
+    height: auto;
+    margin: auto;
+    background-color: red;
+    padding: 50px 0px;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+.preview-wrapper{
+    width: 100vw;
+    height: auto;
+    background-color: blue;
+    padding-top: 50px;
+    color: white;
+    display: flex;
+}
+
+.gif{
+    width: 350px;
+    height: 450px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 100px 50px 100px;
+    grid-template-rows: 80px auto 80px; 
+    column-gap: 10px;
+    row-gap: 15px;
+}
+
+.game-name{
+    font-weight: 300;
+    font-size: 1.1em;
+    margin: 0;
+    margin-top: 5px;
+}
+
+.price{
+    font-weight: 500;
+    font-size: 1
+}

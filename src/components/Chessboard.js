@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'; 
 import Chessboard from 'chessboardjsx';
+import './Chessboard.css'
 
 const ipfsHttpClient = require('ipfs-http-client');
 const ipfs = ipfsHttpClient("ipfs.infura.io");
@@ -67,11 +68,13 @@ const ChessboardWrapper = props => {
                 orientation={orientation}
                 allowDrag={() => false} 
             />
-            <button onClick={onClickReset}>First Move</button>        
-            <button onClick={onClickBack}>Back</button>     
-            <button onClick={onClickForward}>Forward</button>    
-            <button onClick={onClickLastMove}>Last Move</button>
-            <button onClick={flipOrientation}>Flip board</button>
+            <div className="button-wrapper">
+                <button className="chess-button" onClick={onClickReset}>First Move</button>        
+                <button className="chess-button" onClick={onClickBack}>Back</button>     
+                <button className="chess-button" onClick={onClickForward}>Forward</button>    
+                <button className="chess-button" onClick={onClickLastMove}>Last Move</button>
+                <button className="chess-button" onClick={flipOrientation}>Flip board</button>
+            </div>
         </div>
     );
 };

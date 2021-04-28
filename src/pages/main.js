@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'; 
 import ChessboardWrapper from '../components/Chessboard';
 import Preview from '../components/Preview';
+import Navbar from '../components/Navbar';
+import './main.css'
 
 require('dotenv').config();
 
@@ -21,15 +23,6 @@ const MainPage = () => {
     const [prices, setPrices] = useState([]);
     const [address, setAddress] = useState('');
     const [position, setPosition] = useState('');
-
-    const connectWallet = async () => {
-        ethereum.request({ method: 'eth_requestAccounts' })
-                .then(wallet => setAddress(wallet[0]));
-    }
-
-    ethereum.on('accountsChanged', function (accounts) {
-        setAddress(accounts[0]);
-    });
     
     useEffect(() => {
         async function fetchContractData() {
@@ -67,27 +60,29 @@ const MainPage = () => {
 
     return (
         <div>
-            <button onClick={connectWallet}>Connect Wallet</button>
-            {position && <ChessboardWrapper 
-                CID={position}
-                />
-            }
-            <ul>
+            <Navbar />
+            <div className="chess-wrapper">
+                {position &&<ChessboardWrapper 
+                    CID={position}
+                    /> 
+                }
+            </div>
+        <div className="preview-wrapper">
+            <div className="gif-wrapper"></div>
                 {JSONdata.length > 0 && 
                     JSONdata.map((json, index) => {
-                        return <div onClick={() => changeBoard(json.pgn)}> 
+                        return <div className="gif" onClick={() => changeBoard(json.pgn)}> 
                             <Preview 
                                 key={index}
                                 gif={`https://ipfs.io/ipfs/${json.image}`}
                                 header={json.name}
                                 price={prices[index]}
-                                account={address}
                                 tokenID={index + 1} // index starts at 0, tokenID at 1
                             />
                         </div>
                     })
                 }
-            </ul>
+        </div>
         </div>
     );
 };
