@@ -20,6 +20,7 @@ const MainPage = () => {
     const [JSONdata, setJSONdata] = useState([]);
     const [prices, setPrices] = useState([]);
     const [address, setAddress] = useState('');
+    const [position, setPosition] = useState('');
 
     const connectWallet = async () => {
         ethereum.request({ method: 'eth_requestAccounts' })
@@ -57,30 +58,33 @@ const MainPage = () => {
                     })
             }
         }
-        
         fetchContractData();
     }, []);
 
+    const changeBoard = (pgn) => {
+        setPosition(pgn);
+    }
 
     return (
         <div>
             <button onClick={connectWallet}>Connect Wallet</button>
-            {JSONdata.length > 0 && <ChessboardWrapper 
-                //TODO: click on preview updates chessboard state
-                CID={JSONdata[0].pgn}
+            {position && <ChessboardWrapper 
+                CID={position}
                 />
             }
             <ul>
                 {JSONdata.length > 0 && 
                     JSONdata.map((json, index) => {
-                        return <Preview 
-                            key={index}
-                            gif={`https://ipfs.io/ipfs/${json.image}`}
-                            header={json.name}
-                            price={prices[index]}
-                            account={address}
-                            tokenID={index + 1} // index starts at 0, tokenID at 1
-                        />
+                        return <div onClick={() => changeBoard(json.pgn)}> 
+                            <Preview 
+                                key={index}
+                                gif={`https://ipfs.io/ipfs/${json.image}`}
+                                header={json.name}
+                                price={prices[index]}
+                                account={address}
+                                tokenID={index + 1} // index starts at 0, tokenID at 1
+                            />
+                        </div>
                     })
                 }
             </ul>
