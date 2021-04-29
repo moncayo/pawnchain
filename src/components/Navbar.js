@@ -1,24 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Navbar.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { account } from '../actions/accountActions';
+
 const ethereum = window.ethereum;
 
 const Navbar = () => {
-    const [address, setAddress] = useState('');
-
+    const dispatch = useDispatch();
+    const accountStatus =  useSelector(state => state.accountStatus);
+    const { loading, currentAccount, error } = accountStatus;
+    
     const connectWallet = async () => {
-        ethereum.request({ method: 'eth_requestAccounts' })
-                .then(wallet => setAddress(wallet))
-                .catch(e => console.log(e));
+        ethereum
+            .request({ method: 'eth_requestAccounts' })
+            .then(wallet => {
+                dispatch(account(wallet[0]))
+            })
     }
 
     ethereum.on('accountsChanged', function (accounts) {
-        setAddress(accounts[0]);
+        dispatch(account(accounts[0]));
     });
 
     return (
         <div className="nav-wrapper">
             <h1 className="logo-text">PawnChain</h1> 
-            { address ? <h1 className="address-container">{address}</h1> : <button onClick={connectWallet}>Connect Metamask</button> }
+            { currentAccount ? <h1 className="address-container">{currentAccount}</h1> : <button onClick={connectWallet}>Connect Metamask</button> }
         </div>
     );
 }

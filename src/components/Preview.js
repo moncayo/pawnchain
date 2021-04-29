@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Preview.css';
+import { useSelector } from 'react-redux';
 
 require('dotenv').config();
 
@@ -7,21 +8,17 @@ const { ethers } = require('ethers');
 
 const pawnchainAbi = require('../abi/Pawnchain.json').abi
 
-const Preview = props => {
-    const [address, setAddress] = useState('');
 
-    useEffect(() => {
-        window.ethereum.request({ method: 'eth_requestAccounts' })
-            .then(wallet => { setAddress(wallet[0]) })
-            .catch(e => console.log(e));
-    })
+const Preview = props => {
+    const accountStatus = useSelector(state => state.accountStatus);
+    const { currentAccount } = accountStatus;
 
     const buyToken = () => {
         window.ethereum.request({
             method: 'eth_sendTransaction',
             params: [
                 {
-                    from: address,
+                    from: currentAccount,
                     to: process.env.REACT_APP_CONTRACT_ADDRESS,
                     value: ethers.utils.parseEther(props.price).toHexString(),
                     data: new ethers.utils.Interface(pawnchainAbi).encodeFunctionData('vendingMachine', [props.tokenID])
