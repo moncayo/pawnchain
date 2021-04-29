@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'; 
+import { useSelector } from 'react-redux';
 import ChessboardWrapper from '../components/Chessboard';
 import Preview from '../components/Preview';
 import Navbar from '../components/Navbar';
@@ -19,9 +20,11 @@ const pawnchainContract = new ethers.Contract(process.env.REACT_APP_CONTRACT_ADD
 const pawnchainWithSigner = pawnchainContract.connect(signer);
 
 const MainPage = () => {    
+    const accountStatus = useSelector(state => state.accountStatus);
+    const { currentAccount } = accountStatus;
+
     const [JSONdata, setJSONdata] = useState([]);
     const [prices, setPrices] = useState([]);
-    const [address, setAddress] = useState('');
     const [position, setPosition] = useState('');
     
     useEffect(() => {
@@ -69,8 +72,8 @@ const MainPage = () => {
             </div>
         <div className="preview-wrapper">
             <div className="gif-wrapper"></div>
-                {JSONdata.length > 0 && 
-                    JSONdata.map((json, index) => {
+                {   currentAccount 
+                    ? JSONdata.map((json, index) => {
                         return <div className="gif" onClick={() => changeBoard(json.pgn)}> 
                             <Preview 
                                 key={index}
@@ -81,6 +84,7 @@ const MainPage = () => {
                             />
                         </div>
                     })
+                    : <h1>Connect Metamask</h1>
                 }
         </div>
         </div>
