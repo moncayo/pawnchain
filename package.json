@@ -13,6 +13,7 @@
     "chessboardjsx": "^2.4.7",
     "dotenv": "^8.2.0",
     "ethers": "^5.1.2",
+    "firebase": "^8.4.3",
     "form-data": "^2.5.1",
     "ipfs-http-client": "^33.1.1",
     "react": "^17.0.2",

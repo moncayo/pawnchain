@@ -4,6 +4,7 @@ import ChessboardWrapper from '../components/Chessboard';
 import Preview from '../components/Preview';
 import Navbar from '../components/Navbar';
 import './main.css'
+import Firebase from 'firebase';
 
 require('dotenv').config();
 
@@ -18,6 +19,15 @@ const signer = provider.getSigner();
 const pawnchainAbi = require('../abi/Pawnchain.json').abi;
 const pawnchainContract = new ethers.Contract(process.env.REACT_APP_CONTRACT_ADDRESS, pawnchainAbi, provider);
 const pawnchainWithSigner = pawnchainContract.connect(signer);
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBOY25NETibN4tsg9znW3oD20ix1AhYUOA",
+    authDomain: "pawnchain-d761c.firebaseapp.com",
+    databaseURL: "https://pawnchain-d761c-default-rtdb.firebaseio.com",
+    projectId: "pawnchain-d761c",
+    storageBucket: "pawnchain-d761c.appspot.com",
+    appId: "1:299850907196:web:e527badad8242f6f7b8d39"
+};
 
 const MainPage = () => {    
     const accountStatus = useSelector(state => state.accountStatus);
@@ -53,6 +63,10 @@ const MainPage = () => {
                         setPrices(prices => [...prices, price])
                     })
             }
+            
+            //TODO: structure data and replace contract calls with database calls
+            Firebase.initializeApp(firebaseConfig);
+            Firebase.database().ref('/').once('value').then(snapshot => console.log(snapshot.val()));
         }
         fetchContractData();
     }, []);
