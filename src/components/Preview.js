@@ -33,7 +33,6 @@ const Preview = props => {
             <img className="img-preview" src={props.gif} alt={props.header} />
             <h1 className= "game-name">{props.header}</h1>
             <button onClick={buyToken}>Buy for {props.price}</button>
-
         </div>
     );
 };
