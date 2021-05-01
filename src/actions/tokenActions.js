@@ -6,6 +6,7 @@ import {
 
 import Firebase from 'firebase';
 
+// TODO: put data in .env file
 const firebaseConfig = {
     apiKey: "AIzaSyBOY25NETibN4tsg9znW3oD20ix1AhYUOA",
     authDomain: "pawnchain-d761c.firebaseapp.com",

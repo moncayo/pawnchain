@@ -3,10 +3,12 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { accountReducer } from './reducers/accountReducers'
 import { tokenReducer } from './reducers/tokenReducers';
+import { positionReducer } from './reducers/positionReducers';
 
 const reducer = combineReducers({
     accountStatus: accountReducer,
-    tokens: tokenReducer
+    tokens: tokenReducer,
+    boardPosition: positionReducer
 })
 
 const initialState = {}

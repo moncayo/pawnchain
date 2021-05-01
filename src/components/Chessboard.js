@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'; 
 import Chessboard from 'chessboardjsx';
 import './Chessboard.css'
+import { useSelector } from 'react-redux';
 
 const ipfsHttpClient = require('ipfs-http-client');
 const ipfs = ipfsHttpClient("ipfs.infura.io");
@@ -8,11 +9,14 @@ const ipfs = ipfsHttpClient("ipfs.infura.io");
 const Chess = require('chess.js');
 const chess = new Chess();
 
-const ChessboardWrapper = props => {    
+const ChessboardWrapper = () => {    
     const [pgn, setPgn] = useState('')
     const [board, setBoard] = useState('')
     const [lastMoves, setLastMoves] = useState([]); // Last in First Out
     const [orientation, setOrientation] = useState('white');
+
+    const boardSelector = useSelector(state => state.boardPosition);
+    const { position } = boardSelector;
 
     const onClickBack = () => {
         const undo_move = chess.undo();
@@ -48,18 +52,20 @@ const ChessboardWrapper = props => {
     }
 
     useEffect(() => {
-        async function startIPFS() {
-            const CID = props.CID;
+        async function fetchPGN() {
+            const CID = position;
             const data = await ipfs.cat(CID);
             chess.load_pgn(data.toString());
 
             setPgn(chess.pgn());
             setBoard(chess.fen());
         }
+        
+        if (position) {
+            fetchPGN()
+        }
 
-        startIPFS();
-
-    }, [props.CID]);
+    }, [position]);
 
     return (
         <div>
