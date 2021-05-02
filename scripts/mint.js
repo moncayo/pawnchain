@@ -9,8 +9,21 @@ const spawn = require('child_process').spawnSync;
 const { Chess } = require('chess.js');
 const { ethers } = require('ethers');
 
+const Firebase = require('firebase');
+
 const API_URL = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
 const API_JSON_URL = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBOY25NETibN4tsg9znW3oD20ix1AhYUOA",
+    authDomain: "pawnchain-d761c.firebaseapp.com",
+    databaseURL: "https://pawnchain-d761c-default-rtdb.firebaseio.com",
+    projectId: "pawnchain-d761c",
+    storageBucket: "pawnchain-d761c.appspot.com",
+    appId: "1:299850907196:web:e527badad8242f6f7b8d39"
+};
+
+Firebase.initializeApp(firebaseConfig);
 
 /**
  * @dev uploads given file to IPFS
@@ -86,7 +99,7 @@ const mintToken = async (hash, price) => {
             console.log(e);
             return;
         });
-
+    
     return 'great success';
 }
 
@@ -143,6 +156,15 @@ const scriptExecution = async (pgn_filename, price) => {
             console.log(e);
             return;
         });
+
+    const ref = Firebase.database().ref('/').push();
+    ref.set({
+        'name': nameData,
+        'image': gifData.IpfsHash,
+        'pgn': pgnData.IpfsHash,
+        'description': descriptionData,
+        'price': price,
+    });
 }
 
 // main script -- nodejs scripts/node.js {filename (*.pgn)} {price (ETH)}
