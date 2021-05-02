@@ -1,12 +1,55 @@
-.img-preview{
-    display: flex;
-    margin: auto;
-    position: relative;
-    width: 350px;
-    height: auto;
+:root{
+    --butt-border-rad:1rem;
 }
 
 .gif-wrapper{
+    width:100%;
     display: flex;
     flex-direction: column;
+    
+}
+
+.img-preview{
+    width: 350px;
+}
+
+.game-name{
+    font-weight: 300;
+    font-size: 1.2em;
+    margin: 5px 0;
+}
+
+.gif-bid-button{
+    width:15rem;
+    margin:0 auto;
+    padding: 7px 0;
+    position: relative;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    border:none;
+    background-color: rgb(188, 235, 170);
+    border-radius:var(--butt-border-rad);
+    font-size:0.9rem;
+    font-weight:bold;
+}
+
+
+.gif-bid-button--after{
+    position: absolute;
+    width:100%;
+    height:100%;
+    border-radius:calc(var(--butt-border-rad) + 0.3rem);
+    pointer-events:none;
+}
+.gif-bid-button:focus .gif-bid-button--after{
+    border:2px solid black;
+
+}
+.gif-bid-button:active{
+    background-color: rgba(188, 235, 170,0.9);
+}
+.gif-bid-button:focus{
+    outline:none;
+    /* border:2px solid rgba(255, 255, 255, 0.302); */
 }

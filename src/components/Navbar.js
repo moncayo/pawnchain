@@ -13,9 +13,7 @@ const Navbar = () => {
     const connectWallet = async () => {
         ethereum
             .request({ method: 'eth_requestAccounts' })
-            .then(wallet => {
-                dispatch(account(wallet[0]))
-            })
+            .then(wallet => dispatch(account(wallet[0])))
     }
 
     ethereum.on('accountsChanged', function (accounts) {

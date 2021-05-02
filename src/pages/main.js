@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useEffect } from 'react'; 
 import { useSelector, useDispatch } from 'react-redux';
 import ChessboardWrapper from '../components/Chessboard';
 import Preview from '../components/Preview';
@@ -21,7 +21,7 @@ const MainPage = () => {
     }, [dispatch]);
 
     return (
-        <div>
+        <div className="home" id="top">
             <Navbar/>
             <div className="chess-wrapper">
                 {   !loading 
@@ -30,13 +30,13 @@ const MainPage = () => {
                 }
             </div>
             <div className="preview-wrapper">
-                <div className="gif-wrapper"></div>
                     {   !loading 
                         ? tokens.map((json, index) => {
                             return <div className="gif">
                                         <Preview 
                                             token={json}
                                             key={index}
+                                            tokenID={index + 1}
                                         />
                                     </div>
                         })

@@ -53,8 +53,7 @@ const ChessboardWrapper = () => {
 
     useEffect(() => {
         async function fetchPGN() {
-            const CID = position;
-            const data = await ipfs.cat(CID);
+            const data = await ipfs.cat(position);
             chess.load_pgn(data.toString());
 
             setPgn(chess.pgn());
@@ -68,20 +67,31 @@ const ChessboardWrapper = () => {
     }, [position]);
 
     return (
-        <div>
-            <Chessboard 
-                position={board}
-                orientation={orientation}
-                allowDrag={() => false} 
-            />
-            <div className="button-wrapper">
-                <button className="chess-button" onClick={onClickReset}>First Move</button>        
-                <button className="chess-button" onClick={onClickBack}>Back</button>     
-                <button className="chess-button" onClick={onClickForward}>Forward</button>    
-                <button className="chess-button" onClick={onClickLastMove}>Last Move</button>
-                <button className="chess-button" onClick={flipOrientation}>Flip board</button>
+        <>
+            <div className="chess-container">
+            <div className="shadow-box">
+                <Chessboard 
+                    position={board}
+                    orientation={orientation}
+                    allowDrag={() => false} 
+                    lightSquareStyle={{ backgroundColor: "rgb(244, 239, 220)"}}
+                    darkSquareStyle={{ backgroundColor: "rgb(32, 87, 165)"}}
+                />
             </div>
-        </div>
+            
+            </div>
+            <div className="chess-desc-container"> 
+                <h1> About the game: </h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Congue quisque egestas diam in arcu cursus euismod. Scelerisque felis imperdiet proin fermentum. Et malesuada fames ac turpis egestas. Quisque non tellus orci ac auctor.</p>
+            </div>
+            <div className="button-wrapper">
+                <button className="chess-button" onClick={onClickReset}><i class="fas fa-redo-alt"></i></button>        
+                <button className="chess-button" onClick={onClickBack}><i class="fas fa-step-backward"></i></button>     
+                <button className="chess-button" onClick={onClickForward}><i class="fas fa-step-forward"></i></button>    
+                <button className="chess-button" onClick={onClickLastMove}><i class="fas fa-fast-forward"></i></button>
+                <button className="chess-button" onClick={flipOrientation}><i class="fas fa-sync"></i></button>
+            </div>
+        </>
     );
 };
 
