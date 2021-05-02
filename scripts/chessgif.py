@@ -7,8 +7,8 @@ rootDir = os.path.dirname(os.path.realpath(__file__))
 
 creator = pgn2gif.PgnToGifCreator(
     duration=1,
-    ws_color='#ffffff',
-    bs_color='#769656',
+    ws_color='#F4EFDC',
+    bs_color='#2a62b0',
 )
 
 creator.create_gif(
