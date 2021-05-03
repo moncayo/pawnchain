@@ -29,14 +29,29 @@ const MainPage = () => {
                     : <h1>Loading...</h1> 
                 }
             </div>
+            {
+                /**
+                 * Database receives tokens as JSONs but not as an array
+                 * Has to interate through an object with key pairs
+                 * 
+                 * example:
+                 * {
+                 *  item1: {...},
+                 *  item2: {...}
+                 * }
+                 * 
+                 * json[1] is the value of key (which is in json[0] and we do not need)
+                 * json[0] -> item1, json[1] -> {actual object data}
+                 */
+            }
             <div className="preview-wrapper">
                     {   !loading 
-                        ? tokens.map((json, index) => {
+                        ? Object.entries(tokens).map((json, index) => {
                             return <div className="gif">
                                         <Preview 
-                                            token={json}
+                                            token={json[1]}
                                             key={index}
-                                            tokenID={index + 1}
+                                            tokenID={index + 1} // token IDs start at 1
                                         />
                                     </div>
                         })
