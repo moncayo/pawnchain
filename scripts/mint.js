@@ -1,3 +1,5 @@
+import FirebaseConfig from '../src/config/firebaseConfig';
+
 require('dotenv').config();
 
 const FormData = require('form-data');
@@ -23,7 +25,7 @@ const firebaseConfig = {
     appId: "1:299850907196:web:e527badad8242f6f7b8d39"
 };
 
-Firebase.initializeApp(firebaseConfig);
+Firebase.initializeApp(FirebaseConfig);
 
 /**
  * @dev uploads given file to IPFS

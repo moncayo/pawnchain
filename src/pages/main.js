@@ -50,7 +50,7 @@ const MainPage = () => {
                             return <div className="gif">
                                         <Preview 
                                             token={json[1]}
-                                            key={index}
+                                            key={json[0]}
                                             tokenID={index + 1} // token IDs start at 1
                                         />
                                     </div>

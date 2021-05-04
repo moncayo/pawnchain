@@ -5,18 +5,9 @@ import {
 } from '../constants/tokenConstants';
 
 import Firebase from 'firebase';
+import FirebaseConfig from '../config/firebaseConfig'
 
-// TODO: put data in .env file
-const firebaseConfig = {
-    apiKey: "AIzaSyBOY25NETibN4tsg9znW3oD20ix1AhYUOA",
-    authDomain: "pawnchain-d761c.firebaseapp.com",
-    databaseURL: "https://pawnchain-d761c-default-rtdb.firebaseio.com",
-    projectId: "pawnchain-d761c",
-    storageBucket: "pawnchain-d761c.appspot.com",
-    appId: "1:299850907196:web:e527badad8242f6f7b8d39"
-};
-
-Firebase.initializeApp(firebaseConfig);
+Firebase.initializeApp(FirebaseConfig);
 
 export const listTokens = () => async (dispatch) => {
     try {
