@@ -8,7 +8,7 @@ const ethereum = window.ethereum;
 const Navbar = () => {
     const dispatch = useDispatch();
     const accountStatus =  useSelector(state => state.accountStatus);
-    const { loading, currentAccount, error } = accountStatus;
+    const { currentAccount } = accountStatus;
     
     const connectWallet = async () => {
         ethereum
