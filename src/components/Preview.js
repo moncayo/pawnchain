@@ -14,12 +14,15 @@ const Preview = props => {
     
     return (
         <div className="gif-wrapper">
-            <a href={'#top'}><img 
+            <img 
                 className="img-preview" 
                 src={`https://ipfs.io/ipfs/${token.image}`} 
                 alt={token.name} 
-                onClick={() => dispatch(setPosition({...token, tokenID}))}
-            /></a>
+                onClick={() => { 
+                    dispatch(setPosition({...token, tokenID}));
+                    window.scrollTo(0,0);
+                }}
+            />
             <h1 className= "game-name">{token.name}</h1>
             <BuyButton 
                 account={currentAccount}

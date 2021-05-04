@@ -140,7 +140,7 @@ async function scriptExecution(pgn_filename, price) {
     console.log('\njson uploaded\n\n', jsonData);
 
     const eth_to_wei = ethers.utils.parseEther(price);
-    mintToken(jsonData.IpfsHash, eth_to_wei)
+    mintToken(jsonData.IpfsHash, eth_to_wei).catch(e => { return e } )
     console.log('\nToken minted...')
 
     const ref = firebase.database().ref('/').push();

@@ -11,6 +11,7 @@ require('../config/firebaseConfig');
 require('dotenv').config();
 
 //TODO: replace LOADING with loading spinners
+
 const MainPage = () => {    
     const dispatch = useDispatch();
 
@@ -46,7 +47,7 @@ const MainPage = () => {
                  */
             }
             <div className="preview-wrapper">
-                    {   !loading 
+                    {   tokens 
                         ? Object.entries(tokens).map((json, index) => {
                             return <div key={index} className="gif">
                                         <Preview 

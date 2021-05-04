@@ -73,37 +73,46 @@ const ChessboardWrapper = () => {
     return (
         <>
             <div className="chess-container">
-            <div className="shadow-box">
-                <Chessboard 
-                    position={board}
-                    orientation={orientation}
-                    allowDrag={() => false} 
-                    lightSquareStyle={{ backgroundColor: "rgb(244, 239, 220)"}}
-                    darkSquareStyle={{ backgroundColor: "rgb(32, 87, 165)"}}
-                />
-            </div>
+                <div className="chessboard-container">
+                    <div className="shadow-box">
+                        <Chessboard 
+                            position={board}
+                            orientation={orientation}
+                            allowDrag={() => false} 
+                            lightSquareStyle={{ backgroundColor: "rgb(244, 239, 220)"}}
+                            darkSquareStyle={{ backgroundColor: "rgb(32, 87, 165)"}}
+                        />
+                        
+                    </div>
+                    <div className="button-wrapper">
+                        <button className="chess-button" onClick={onClickReset}><i className="fas fa-redo-alt"></i></button>        
+                        <button className="chess-button" onClick={onClickBack}><i className="fas fa-step-backward"></i></button>     
+                        <button className="chess-button" onClick={onClickForward}><i className="fas fa-step-forward"></i></button>    
+                        <button className="chess-button" onClick={onClickLastMove}><i className="fas fa-fast-forward"></i></button>
+                        <button className="chess-button" onClick={flipOrientation}><i className="fas fa-sync"></i></button>
+                    </div>
+                </div>
+
+                
+                <div className="chess-desc-container"> 
+                    <h1>{position.name}</h1>
+                    <p>{position.description}</p>
+                    {
+                        position
+                        ? <BuyButton
+                                account={currentAccount}
+                                price={position.price}
+                                tokenID={position.tokenID}
+                            />
+                        : null
+                    }
+                </div>
+                
+
+        </div>
             
-            </div>
-            <div className="chess-desc-container"> 
-                <h1>{position.name}</h1>
-                <h2>{position.description}</h2>
-            </div>
-            {
-                position
-                ? <BuyButton
-                        account={currentAccount}
-                        price={position.price}
-                        tokenID={position.tokenID}
-                    />
-                : null
-            }
-            <div className="button-wrapper">
-                <button className="chess-button" onClick={onClickReset}><i className="fas fa-redo-alt"></i></button>        
-                <button className="chess-button" onClick={onClickBack}><i className="fas fa-step-backward"></i></button>     
-                <button className="chess-button" onClick={onClickForward}><i className="fas fa-step-forward"></i></button>    
-                <button className="chess-button" onClick={onClickLastMove}><i className="fas fa-fast-forward"></i></button>
-                <button className="chess-button" onClick={flipOrientation}><i className="fas fa-sync"></i></button>
-            </div>
+            
+            
         </>
     );
 };

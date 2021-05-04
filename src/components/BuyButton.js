@@ -22,7 +22,7 @@ const BuyButton = props => {
     }
 
     return (
-        <button onClick={buyToken}>Ξ {price}</button>
+        <button className="gif-bid-button" onClick={buyToken}> <div className="gif-bid-button--after"/>Ξ {price}</button>
     );
 }
 
