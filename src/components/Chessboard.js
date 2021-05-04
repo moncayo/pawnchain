@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Chessboard from 'chessboardjsx';
 import './Chessboard.css'
 import { useSelector } from 'react-redux';
+import BuyButton from './BuyButton';
 
 const ipfsHttpClient = require('ipfs-http-client');
 const ipfs = ipfsHttpClient("ipfs.infura.io");
@@ -17,6 +18,9 @@ const ChessboardWrapper = () => {
 
     const boardSelector = useSelector(state => state.boardPosition);
     const { position } = boardSelector;
+
+    const accountSelector = useSelector(state => state.accountStatus)
+    const {currentAccount } = accountSelector;
 
     const onClickBack = () => {
         const undo_move = chess.undo();
@@ -53,7 +57,7 @@ const ChessboardWrapper = () => {
 
     useEffect(() => {
         async function fetchPGN() {
-            const data = await ipfs.cat(position);
+            const data = await ipfs.cat(position?.pgn);
             chess.load_pgn(data.toString());
 
             setPgn(chess.pgn());
@@ -81,9 +85,18 @@ const ChessboardWrapper = () => {
             
             </div>
             <div className="chess-desc-container"> 
-                <h1> About the game: </h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Congue quisque egestas diam in arcu cursus euismod. Scelerisque felis imperdiet proin fermentum. Et malesuada fames ac turpis egestas. Quisque non tellus orci ac auctor.</p>
+                <h1>{position.name}</h1>
+                <h2>{position.description}</h2>
             </div>
+            {
+                position
+                ? <BuyButton
+                        account={currentAccount}
+                        price={position.price}
+                        tokenID={position.tokenID}
+                    />
+                : null
+            }
             <div className="button-wrapper">
                 <button className="chess-button" onClick={onClickReset}><i className="fas fa-redo-alt"></i></button>        
                 <button className="chess-button" onClick={onClickBack}><i className="fas fa-step-backward"></i></button>     
