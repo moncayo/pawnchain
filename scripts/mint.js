@@ -24,6 +24,7 @@ const FirebaseConfig = {
 }
 
 firebase.initializeApp(FirebaseConfig);
+
 /**
  * @dev uploads given file to IPFS
  * 
