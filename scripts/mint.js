@@ -1,9 +1,3 @@
-import FirebaseConfig from '../src/config/firebaseConfig';
-import firebase from 'firebase/app';
-import 'firebase/database';
-
-require('dotenv').config();
-
 const FormData = require('form-data');
 const axios = require('axios');
 const fs = require('fs');
@@ -16,8 +10,20 @@ const { ethers } = require('ethers');
 const API_URL = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
 const API_JSON_URL = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
 
-firebase.initializeApp(FirebaseConfig);
+const firebase = require('firebase/app');
+require('firebase/database');
+require('dotenv').config();
 
+const FirebaseConfig = {
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    databaseURL: process.env.FREACT_APP_FIREBASE_DATABASE_URL,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID
+}
+
+firebase.initializeApp(FirebaseConfig);
 /**
  * @dev uploads given file to IPFS
  * 
@@ -157,11 +163,11 @@ const scriptExecution = async (pgn_filename, price) => {
         'pgn': pgnData.IpfsHash,
         'description': descriptionData,
         'price': price,
-    });
+    })
+    .catch(e => console.log(e));
 }
 
 // main script -- nodejs scripts/node.js {filename (*.pgn)} {price (ETH)}
 const args = process.argv.slice(2);
 const filePath = path.join(__dirname, 'pgn', args[0]);
-scriptExecution(filePath, args[1])
-    .catch(e => console.log(e));
+scriptExecution(filePath, args[1]);

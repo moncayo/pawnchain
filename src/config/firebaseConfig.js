@@ -1,5 +1,4 @@
-import firebase from 'firebase/app';
-
+import firebase from "firebase/app";
 require('dotenv').config();
 
 const FirebaseConfig = {
@@ -10,6 +9,4 @@ const FirebaseConfig = {
     storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
     appId: process.env.REACT_APP_FIREBASE_APP_ID
 }
-
-const fire = firebase.initializeApp(FirebaseConfig);
-export default fire;
+firebase.initializeApp(FirebaseConfig);

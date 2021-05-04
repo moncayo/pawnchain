@@ -6,8 +6,8 @@ import Navbar from '../components/Navbar';
 import './main.css'
 
 import { listTokens } from '../actions/tokenActions';
-import '../config/firebaseConfig';
 
+require('../config/firebaseConfig');
 require('dotenv').config();
 
 //TODO: replace LOADING with loading spinners
