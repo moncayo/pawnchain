@@ -85,11 +85,11 @@ const ChessboardWrapper = () => {
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Congue quisque egestas diam in arcu cursus euismod. Scelerisque felis imperdiet proin fermentum. Et malesuada fames ac turpis egestas. Quisque non tellus orci ac auctor.</p>
             </div>
             <div className="button-wrapper">
-                <button className="chess-button" onClick={onClickReset}><i class="fas fa-redo-alt"></i></button>        
-                <button className="chess-button" onClick={onClickBack}><i class="fas fa-step-backward"></i></button>     
-                <button className="chess-button" onClick={onClickForward}><i class="fas fa-step-forward"></i></button>    
-                <button className="chess-button" onClick={onClickLastMove}><i class="fas fa-fast-forward"></i></button>
-                <button className="chess-button" onClick={flipOrientation}><i class="fas fa-sync"></i></button>
+                <button className="chess-button" onClick={onClickReset}><i className="fas fa-redo-alt"></i></button>        
+                <button className="chess-button" onClick={onClickBack}><i className="fas fa-step-backward"></i></button>     
+                <button className="chess-button" onClick={onClickForward}><i className="fas fa-step-forward"></i></button>    
+                <button className="chess-button" onClick={onClickLastMove}><i className="fas fa-fast-forward"></i></button>
+                <button className="chess-button" onClick={flipOrientation}><i className="fas fa-sync"></i></button>
             </div>
         </>
     );

@@ -4,13 +4,14 @@ import {
     TOKEN_REQUEST_FAIL
 } from '../constants/tokenConstants';
 
-import Firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
 
 export const listTokens = () => async (dispatch) => {
     try {
         dispatch({ type: TOKEN_REQUEST })
         
-        Firebase.database()
+        firebase.database()
             .ref('/')
             .once('value')
             .then(snapshot => dispatch({

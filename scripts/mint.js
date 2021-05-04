@@ -1,5 +1,5 @@
 import FirebaseConfig from '../src/config/firebaseConfig';
-
+import firebase from 'firebase/app';
 require('dotenv').config();
 
 const FormData = require('form-data');
@@ -11,13 +11,12 @@ const spawn = require('child_process').spawnSync;
 const { Chess } = require('chess.js');
 const { ethers } = require('ethers');
 
-const Firebase = require('firebase');
+
 
 const API_URL = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
 const API_JSON_URL = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
 
-
-Firebase.initializeApp(FirebaseConfig);
+firebase.initializeApp(FirebaseConfig);
 
 /**
  * @dev uploads given file to IPFS

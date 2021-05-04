@@ -1,3 +1,5 @@
+import firebase from 'firebase/app';
+
 require('dotenv').config();
 
 const FirebaseConfig = {
@@ -9,4 +11,5 @@ const FirebaseConfig = {
     appId: process.env.REACT_APP_FIREBASE_APP_ID
 }
 
-export default FirebaseConfig;
+const fire = firebase.initializeApp(FirebaseConfig);
+export default fire;

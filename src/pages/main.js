@@ -6,8 +6,8 @@ import Navbar from '../components/Navbar';
 import './main.css'
 
 import { listTokens } from '../actions/tokenActions';
-import FirebaseConfig from '../config/firebaseConfig'
-import Firebase from 'firebase';
+import '../config/firebaseConfig';
+
 require('dotenv').config();
 
 //TODO: replace LOADING with loading spinners
@@ -18,8 +18,6 @@ const MainPage = () => {
     const { tokens, loading } = tokenSelector;
 
     useEffect(() => {
-        Firebase.initializeApp(FirebaseConfig);
-
         dispatch(listTokens());
     }, [dispatch]);
 
@@ -50,10 +48,9 @@ const MainPage = () => {
             <div className="preview-wrapper">
                     {   !loading 
                         ? Object.entries(tokens).map((json, index) => {
-                            return <div className="gif">
+                            return <div key={index} className="gif">
                                         <Preview 
                                             token={json[1]}
-                                            key={json[0]}
                                             tokenID={index + 1} // token IDs start at 1
                                         />
                                     </div>
