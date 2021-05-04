@@ -16,14 +16,6 @@ const Firebase = require('firebase');
 const API_URL = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
 const API_JSON_URL = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBOY25NETibN4tsg9znW3oD20ix1AhYUOA",
-    authDomain: "pawnchain-d761c.firebaseapp.com",
-    databaseURL: "https://pawnchain-d761c-default-rtdb.firebaseio.com",
-    projectId: "pawnchain-d761c",
-    storageBucket: "pawnchain-d761c.appspot.com",
-    appId: "1:299850907196:web:e527badad8242f6f7b8d39"
-};
 
 Firebase.initializeApp(FirebaseConfig);
 
