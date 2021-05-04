@@ -6,7 +6,8 @@ import Navbar from '../components/Navbar';
 import './main.css'
 
 import { listTokens } from '../actions/tokenActions';
-
+import FirebaseConfig from '../config/firebaseConfig'
+import Firebase from 'firebase';
 require('dotenv').config();
 
 //TODO: replace LOADING with loading spinners
@@ -17,6 +18,8 @@ const MainPage = () => {
     const { tokens, loading } = tokenSelector;
 
     useEffect(() => {
+        Firebase.initializeApp(FirebaseConfig);
+
         dispatch(listTokens());
     }, [dispatch]);
 

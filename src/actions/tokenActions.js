@@ -5,9 +5,6 @@ import {
 } from '../constants/tokenConstants';
 
 import Firebase from 'firebase';
-import FirebaseConfig from '../config/firebaseConfig'
-
-Firebase.initializeApp(FirebaseConfig);
 
 export const listTokens = () => async (dispatch) => {
     try {
