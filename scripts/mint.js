@@ -30,7 +30,7 @@ firebase.initializeApp(FirebaseConfig);
  * 
  * @param filename -- path of file to be uploaded 
  */
-const uploadToIPFS = async (filename) => {
+async function uploadToIPFS(filename) {
     // load file data
     const filestream = fs.createReadStream(filename);
     let data = new FormData();
@@ -46,10 +46,9 @@ const uploadToIPFS = async (filename) => {
                 pinata_secret_api_key: process.env.SECRET_KEY
             },
         })
-        .then(res => { return res.data })
-        .catch(err => console.log(err));
-
-    return ipfs_data;
+        
+    return ipfs_data.data;
+    
 }
 
 /**
@@ -57,7 +56,7 @@ const uploadToIPFS = async (filename) => {
  * 
  * @param jsonBody -- takes a JSON to be uploaded to Pinata
  */
-const uploadJSONtoIPFS = async (jsonBody) => {
+async function uploadJSONtoIPFS(jsonBody) {
     // jsonBody is added directly to the API request
     const ipfs_data = await axios
         .post(API_JSON_URL, jsonBody, {
@@ -66,10 +65,8 @@ const uploadJSONtoIPFS = async (jsonBody) => {
                 pinata_secret_api_key: process.env.SECRET_KEY
             },
         })
-        .then(res => { return res.data })
-        .catch(err => console.log(err));
 
-    return ipfs_data;    
+    return ipfs_data.data;    
 }
 
 /**
@@ -80,7 +77,7 @@ const uploadJSONtoIPFS = async (jsonBody) => {
  * 
  * TODO: generalize for use on main chain
  */
-const mintToken = async (hash, price) => {
+function mintToken(hash, price) {
     //const provider = new ethers.providers.JsonRpcProvider("INFURIA API");
     const provider = new ethers.providers.JsonRpcProvider("HTTP://127.0.0.1:7545");
     
@@ -93,14 +90,7 @@ const mintToken = async (hash, price) => {
     const pawnchainContract = new ethers.Contract(pawnchainAddress, pawnchainAbi, provider);
     const pawnchainWithSigner = pawnchainContract.connect(signer);
 
-    pawnchainWithSigner
-        .mintPGN(hash, price)
-        .catch(e => {
-            console.log(e);
-            return;
-        });
-    
-    return 'great success';
+    pawnchainWithSigner.mintPGN(hash, price)
 }
 
 /**
@@ -109,7 +99,7 @@ const mintToken = async (hash, price) => {
  * @param pgn_filename -- path of .pgn file to be tokenized
  * @param price -- price to set token to
  */
-const scriptExecution = async (pgn_filename, price) => {
+async function scriptExecution(pgn_filename, price) {
     const parsedPath = path.parse(pgn_filename);
 
     // parse and modify .pgn data
@@ -125,11 +115,11 @@ const scriptExecution = async (pgn_filename, price) => {
 
     // upload files to IPFS
     const pgnData = await uploadToIPFS(pgn_filename);
-    console.log('pgn uploaded');
+    console.log('pgn uploaded\n\n', pgnData);
 
     const gifPath = path.join(__dirname, 'gif', parsedPath.name.concat('.gif'));
     const gifData = await uploadToIPFS(gifPath);
-    console.log('gif uploaded');
+    console.log('\ngif uploaded\n\n', gifData);
 
     // adds (white) v. (black) to JSON data
     const headerData = chess.header();
@@ -147,15 +137,11 @@ const scriptExecution = async (pgn_filename, price) => {
     }
 
     const jsonData = await uploadJSONtoIPFS(jsonBody);
-    console.log('json uploaded');
+    console.log('\njson uploaded\n\n', jsonData);
 
     const eth_to_wei = ethers.utils.parseEther(price);
     mintToken(jsonData.IpfsHash, eth_to_wei)
-        .then(res => console.log(res))
-        .catch(e => {
-            console.log(e);
-            return;
-        });
+    console.log('\nToken minted...')
 
     const ref = firebase.database().ref('/').push();
     ref.set({
@@ -165,10 +151,11 @@ const scriptExecution = async (pgn_filename, price) => {
         'description': descriptionData,
         'price': price,
     })
+    .then(() => firebase.database.goOffline())
     .catch(e => console.log(e));
 }
 
 // main script -- nodejs scripts/node.js {filename (*.pgn)} {price (ETH)}
 const args = process.argv.slice(2);
 const filePath = path.join(__dirname, 'pgn', args[0]);
-scriptExecution(filePath, args[1]);
+scriptExecution(filePath, args[1]).catch(e => console.log(e));
