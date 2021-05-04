@@ -1,5 +1,7 @@
 import FirebaseConfig from '../src/config/firebaseConfig';
 import firebase from 'firebase/app';
+import 'firebase/database';
+
 require('dotenv').config();
 
 const FormData = require('form-data');
@@ -10,8 +12,6 @@ const spawn = require('child_process').spawnSync;
 
 const { Chess } = require('chess.js');
 const { ethers } = require('ethers');
-
-
 
 const API_URL = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
 const API_JSON_URL = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
@@ -150,7 +150,7 @@ const scriptExecution = async (pgn_filename, price) => {
             return;
         });
 
-    const ref = Firebase.database().ref('/').push();
+    const ref = firebase.database().ref('/').push();
     ref.set({
         'name': nameData,
         'image': gifData.IpfsHash,
