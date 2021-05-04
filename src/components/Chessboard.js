@@ -20,7 +20,7 @@ const ChessboardWrapper = () => {
     const { position } = boardSelector;
 
     const accountSelector = useSelector(state => state.accountStatus)
-    const {currentAccount } = accountSelector;
+    const { currentAccount } = accountSelector;
 
     const onClickBack = () => {
         const undo_move = chess.undo();

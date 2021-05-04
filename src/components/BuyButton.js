@@ -4,16 +4,17 @@ const { ethers } = require('ethers');
 const pawnchainAbi = require('../abi/Pawnchain.json').abi
 
 const BuyButton = props => {
+    const { account, price, tokenID } = props;
 
     const buyToken = () => {
         window.ethereum.request({
             method: 'eth_sendTransaction',
             params: [
                 {
-                    from: props.account,
+                    from: account,
                     to: process.env.REACT_APP_CONTRACT_ADDRESS,
-                    value: ethers.utils.parseEther(props.price).toHexString(),
-                    data: new ethers.utils.Interface(pawnchainAbi).encodeFunctionData('vendingMachine', [props.tokenID])
+                    value: ethers.utils.parseEther(price).toHexString(),
+                    data: new ethers.utils.Interface(pawnchainAbi).encodeFunctionData('vendingMachine', [tokenID])
                 }
             ]
         })
@@ -21,7 +22,7 @@ const BuyButton = props => {
     }
 
     return (
-        <button onClick={buyToken}/>
+        <button onClick={buyToken}>Ξ {price}</button>
     );
 }
 

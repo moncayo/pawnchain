@@ -41,15 +41,11 @@ const Preview = props => {
             /></a>
             <h1 className= "game-name">{token.name}</h1>
             <BuyButton 
-                classname="gif-bid-button"
                 account={currentAccount}
                 price={token.price}
                 tokenID={tokenID}
             >
-            <div className="gif-bid-button--after" />
             </BuyButton>
-            {/** old button below needs to be styled into the one above */}
-            <button className="gif-bid-button" onClick={buyToken}><div className="gif-bid-button--after"/>Buy for {token.price}</button>
         </div>
     );
 };
