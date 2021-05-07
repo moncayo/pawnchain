@@ -79,18 +79,19 @@ async function uploadJSONtoIPFS(jsonBody) {
  */
 function mintToken(hash, price) {
     //const provider = new ethers.providers.JsonRpcProvider("INFURIA API");
-    const provider = new ethers.providers.JsonRpcProvider("HTTP://127.0.0.1:7545");
+    const provider = new ethers.providers.JsonRpcProvider("https://ropsten.infura.io/v3/140df68d21ef471eb7daa15363a433a8");
     
-    const signer = provider.getSigner(0); //
-        
+    const signer = new ethers.Wallet.fromMnemonic(process.env.MNEMONIC, "m/44'/60'/0'/0/1")
+    
+    const wallet = signer.connect(provider);
+    console.log(wallet)    
     const pawnchainAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
     
     const pawnchainJsonFile = path.join('../', 'build', 'contracts', 'Pawnchain.json')
     const pawnchainAbi = require(pawnchainJsonFile).abi;
-    const pawnchainContract = new ethers.Contract(pawnchainAddress, pawnchainAbi, provider);
-    const pawnchainWithSigner = pawnchainContract.connect(signer);
+    const pawnchainContract = new ethers.Contract(pawnchainAddress, pawnchainAbi, wallet);
 
-    pawnchainWithSigner.mintPGN(hash, price)
+    pawnchainContract.mintPGN(hash, price).catch(e => console.log(e))
 }
 
 /**
@@ -140,7 +141,7 @@ async function scriptExecution(pgn_filename, price) {
     console.log('\njson uploaded\n\n', jsonData);
 
     const eth_to_wei = ethers.utils.parseEther(price);
-    mintToken(jsonData.IpfsHash, eth_to_wei).catch(e => { return e } )
+    //mintToken(jsonData.IpfsHash, eth_to_wei).catch(e => { console.log(e) } )
     console.log('\nToken minted...')
 
     const ref = firebase.database().ref('/').push();
@@ -151,7 +152,6 @@ async function scriptExecution(pgn_filename, price) {
         'description': descriptionData,
         'price': price,
     })
-    .then(() => firebase.database.goOffline())
     .catch(e => console.log(e));
 }
 
