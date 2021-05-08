@@ -11,6 +11,10 @@ const Preview = props => {
     const accountStatus = useSelector(state => state.accountStatus);
     const { currentAccount } = accountStatus;
     const { token, tokenID } = props;
+
+    const names = token.name.split(' v. ');
+    const white_name = names[0]
+    const black_name = names[1];
     
     return (
         <div className="gif-wrapper">
@@ -23,13 +27,19 @@ const Preview = props => {
                     window.scrollTo(0,0);
                 }}
             />
-            <h1 className= "game-name">{token.name}</h1>
-            <BuyButton 
-                account={currentAccount}
-                price={token.price}
-                tokenID={tokenID}
-            >
-            </BuyButton>
+            <div className="name-container"> 
+                <h1 className= "game-name">{white_name}</h1>
+                <h1 className= "game-name">v.</h1>
+                <h1 className= "game-name">{black_name}</h1>    
+            </div>
+            <div className="wrapper-button-preview">
+                <BuyButton 
+                    account={currentAccount}
+                    price={token.price}
+                    tokenID={tokenID}
+                >
+                </BuyButton>
+            </div>
         </div>
     );
 };

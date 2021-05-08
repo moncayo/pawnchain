@@ -18,7 +18,6 @@ const BuyButton = props => {
                 }
             ]
         })
-        .catch(e => console.log(e));
     }
 
     return (

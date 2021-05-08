@@ -2,23 +2,62 @@
     display: flex;
     flex-direction: row;
     height: 70px;
-    width: 100vw;
     justify-content: space-between;
     margin: auto;
     align-items: center;
+    
 }
+
 
 .logo-text {
     margin: 0;
     text-align: center;
     font-weight: 600;
-    font-size: 1.3em;
-    margin-left: 20px;
+    font-size: 1.5em;
+    margin-left: 1.2em;
+    color: #f4efdc;
 }
 
 .address-container{
     font-size: 1em;
-    margin-right: 20px;
     font-weight: 300;
     text-align: center;
+    margin-right: 1.2em;
+    font-size: 1.01em;
+    font-weight: 400;
+    font-family: 'Roboto', sans-serif;
+    color: #f4efdc;
+
+}
+.connect-button-wrapper{
+    display: flex;
+    flex-direction: row;
+}
+
+.connect-button{
+    cursor: pointer;
+    transition: opacity 0.2s ease-in-out;
+    background-color: white;
+    padding: 7px 20px;
+    border: none;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 1.01em;
+    margin-right: 1.2em;
+    color: #11315e;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+.connect-button:hover{
+    background-color: rgba(255, 255, 255, 0.959);
+}
+
+.metamask-icon{
+    display: flex;
+    width: 2em;
+    margin-bottom: 3px;
+    margin-left: 5px;
 }

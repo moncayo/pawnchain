@@ -12,9 +12,8 @@
 }
 
 .preview-wrapper{
-    width: 100vw;
-
-    padding: 50px 30px;
+    
+    padding: 40px 50px;
     color: white;
     display: flex;
     flex-wrap: wrap;

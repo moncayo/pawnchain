@@ -21,26 +21,29 @@
     box-shadow: 10px 15px 5px rgba(0, 0, 0, 0.288);
 }
 .chess-desc-container{
-    border:3px solid black;
     position:relative;
-    width:23rem;
+    width:30rem;
     height:30rem;
     display: flex;
-    align-items: center;
     flex-direction: column;
     overflow: hidden;
     margin-bottom: 120px;
+    padding-bottom: 20px;
 }
 
 .chess-desc-container > p{
     max-width: 100%;
-    margin: 0 0 10px 0;
+    margin: 0 0 auto 0;
     color:white;
     font-size: 25px;
     box-sizing:border-box;
     max-height:300px;
     padding: 0 25px;
     overflow: auto;
+}
+
+.chess-desc-container > p::-webkit-scrollbar{
+    display:none;
 }
 
 .button-wrapper{
@@ -90,4 +93,24 @@
     width:100%;
     color: rgb(45, 107, 194);
     font-size: 2em;
+}
+.discription-wrapper{
+    margin: 15px 0;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.name-wrapper{
+    font-weight: 600;
+    font-size: 1.8em;
+    margin: 0;
+    margin-right: auto;
+    color: #f4efdc;
+}
+
+.discription-wrapper{
+    color: #e4e3de;
+    text-align: justify;  /* For Edge */
+    text-align-last: left;
 }

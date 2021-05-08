@@ -15,6 +15,8 @@ const ChessboardWrapper = () => {
     const [board, setBoard] = useState('')
     const [lastMoves, setLastMoves] = useState([]); // Last in First Out
     const [orientation, setOrientation] = useState('white');
+    const [whiteName, setWhiteName] = useState('')
+    const [blackName, setBlackName] = useState('')
 
     const boardSelector = useSelector(state => state.boardPosition);
     const { position } = boardSelector;
@@ -65,7 +67,10 @@ const ChessboardWrapper = () => {
         }
         
         if (position) {
-            fetchPGN()
+            fetchPGN();
+            const names = position.name.split(' v. ');
+            setWhiteName(names[0])
+            setBlackName(names[1])
         }
 
     }, [position]);
@@ -95,8 +100,15 @@ const ChessboardWrapper = () => {
 
                 
                 <div className="chess-desc-container"> 
-                    <h1>{position.name}</h1>
-                    <p>{position.description}</p>
+                    {whiteName || blackName
+                        ?<div className="discription-wrapper">
+                            <h1 className="name-wrapper">{whiteName}</h1>
+                            <h1 className="name-wrapper">v.</h1>
+                            <h1 className="name-wrapper">{blackName}</h1>
+                            <p className="discription-wrapper">{position.description}</p>
+                         </div>
+                        : null
+                    }
                     {
                         position
                         ? <BuyButton

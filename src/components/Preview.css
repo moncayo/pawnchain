@@ -3,6 +3,7 @@
 }
 
 .gif-wrapper{
+    box-sizing: border-box;
     width:100%;
     display: flex;
     flex-direction: column;
@@ -16,19 +17,30 @@
 .game-name{
     font-weight: 300;
     font-size: 1.2em;
-    margin: 5px 0;
+    margin: 0;
+    margin: auto;
 }
 
+.name-container{
+    margin: 15px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+
 .gif-bid-button{
+    color: white;
+    font-weight: 200;
+    font-family: 'Roboto', sans-serif;
     width:15rem;
-    margin:0 auto;
+    margin-right:auto;
     padding: 7px 0;
     position: relative;
     display:flex;
     align-items: center;
     justify-content: center;
     border:none;
-    background-color: rgb(188, 235, 170);
+    background-color: #4688e4;
     border-radius:var(--butt-border-rad);
     font-size:0.9rem;
     font-weight:bold;
@@ -52,4 +64,9 @@
 .gif-bid-button:focus{
     outline:none;
     /* border:2px solid rgba(255, 255, 255, 0.302); */
+}
+
+.wrapper-button-preview{
+    display:flex;
+    margin: auto;
 }
