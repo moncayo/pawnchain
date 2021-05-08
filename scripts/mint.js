@@ -126,7 +126,7 @@ async function scriptExecution(pgn_filename, price) {
 
     // adds (white) v. (black) to JSON data
     const headerData = chess.header();
-    const nameData = headerData.White.concat(' v. ', headerData.Black);
+    const nameData = headerData.White.concat(' vs. ', headerData.Black);
 
     // adds short description of game to JSON data
     const descriptionPath = path.join(__dirname, 'desc', parsedPath.name.concat('.txt'));

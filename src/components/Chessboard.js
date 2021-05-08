@@ -70,7 +70,7 @@ const ChessboardWrapper = () => {
         
         if (position) {
             fetchPGN();
-            const names = position.name.split(' v. ');
+            const names = position.name.split(' vs. ');
             setWhiteName(names[0])
             setBlackName(names[1])
 
@@ -110,7 +110,7 @@ const ChessboardWrapper = () => {
                     {whiteName || blackName
                         ?<div className="discription-wrapper">
                             <h1 className="name-wrapper">{whiteName}</h1>
-                            <h1 className="name-wrapper">v.</h1>
+                            <h1 className="name-wrapper">vs.</h1>
                             <h1 className="name-wrapper">{blackName}</h1>
                             <p className="discription-wrapper">{position.description}</p>
                          </div>

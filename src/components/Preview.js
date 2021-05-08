@@ -12,7 +12,7 @@ const Preview = props => {
     const { currentAccount } = accountStatus;
     const { token, tokenID } = props;
 
-    const names = token.name.split(' v. ');
+    const names = token.name.split(' vs. ');
     const white_name = names[0]
     const black_name = names[1];
     
@@ -29,7 +29,7 @@ const Preview = props => {
             />
             <div className="name-container"> 
                 <h1 className= "game-name">{white_name}</h1>
-                <h1 className= "game-name">v.</h1>
+                <h1 className= "game-name">vs.</h1>
                 <h1 className= "game-name">{black_name}</h1>    
             </div>
             <div className="wrapper-button-preview">
