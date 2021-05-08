@@ -91,8 +91,9 @@ function mintToken(hash, price) {
     pawnchainContract.mintPGN(hash, price, {
         gasLimit: 8000000
     })
-    .then(res =>console.log(res))
     .catch(e => console.log(e));
+
+    return true;
 }
 
 /**
@@ -142,18 +143,20 @@ async function scriptExecution(pgn_filename, price) {
     console.log('\njson uploaded\n\n', jsonData);
 
     const eth_to_wei = ethers.utils.parseEther(price);
+    
     try {
-        mintToken(jsonData.IpfsHash, eth_to_wei)
-        const ref = firebase.database().ref('/').push();
-        ref.set({
-            'name': nameData,
-            'image': gifData.IpfsHash,
-            'pgn': pgnData.IpfsHash,
-            'description': descriptionData,
-            'price': price,
-        })
-        .catch(e => console.log(e));
-        console.log('\nToken minted...')
+        if (mintToken(jsonData.IpfsHash, eth_to_wei)) {
+            const ref = firebase.database().ref('/').push();
+            ref.set({
+                'name': nameData,
+                'image': gifData.IpfsHash,
+                'pgn': pgnData.IpfsHash,
+                'description': descriptionData,
+                'price': price,
+            })
+            .catch(e => console.log(e));
+            console.log('\nToken minted...')
+        }
     } catch (err) {
         console.log(err)
     }
@@ -163,3 +166,4 @@ async function scriptExecution(pgn_filename, price) {
 const args = process.argv.slice(2);
 const filePath = path.join(__dirname, 'pgn', args[0]);
 scriptExecution(filePath, args[1]).catch(e => console.log(e));
+firebase.database().goOffline();
