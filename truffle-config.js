@@ -46,6 +46,17 @@ module.exports = {
      port: 7545,            // Standard Ethereum port (default: none)
      network_id: "*",       // Any network (default: none)
     },
+    live: {
+      provider: () => new HDWalletProvider({
+        mnemonic: process.env.MNEMONIC,
+        providierOrUrl: process.env.INFURA_MAINNET,
+        addressIndex: 0,
+        chainId: 1
+      }),
+      network_id: 1,
+      gas: 5500000,
+      timeoutBlocks: 100,
+    },
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
@@ -60,7 +71,7 @@ module.exports = {
     ropsten: {
       provider: () => new HDWalletProvider({
         mnemonic: process.env.MNEMONIC, 
-        providerOrUrl:'https://ropsten.infura.io/v3/140df68d21ef471eb7daa15363a433a8',
+        providerOrUrl: process.env.INFURA_ROPSTEN,
         addressIndex: 0,
         chainId: 3
       }),
