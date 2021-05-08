@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import BuyButton from './BuyButton';
 
 const ipfsHttpClient = require('ipfs-http-client');
-const ipfs = ipfsHttpClient("ipfs.infura.io");
+const ipfs = ipfsHttpClient("https://ipfs.infura.io");
 
 const Chess = require('chess.js');
 const chess = new Chess();
@@ -59,7 +59,7 @@ const ChessboardWrapper = () => {
 
     useEffect(() => {
         async function fetchPGN() {
-            const data = await ipfs.cat(position?.pgn);
+            const data = ipfs.cat(position?.pgn);
             chess.load_pgn(data.toString());
 
             setPgn(chess.pgn());
