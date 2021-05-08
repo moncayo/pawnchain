@@ -4,8 +4,7 @@ import './Chessboard.css'
 import { useSelector } from 'react-redux';
 import BuyButton from './BuyButton';
 
-const IPFS = require('ipfs-core');
-
+const fetch = require('node-fetch');
 const Chess = require('chess.js');
 const chess = new Chess();
 
@@ -58,14 +57,13 @@ const ChessboardWrapper = () => {
 
     useEffect(() => {
         async function fetchPGN() {
-            const ipfs = await IPFS.create()
-
-            for await (const chunk of ipfs.cat(position?.pgn)) {
-                chess.load_pgn(chunk.toString());
-            };
-
-            setPgn(chess.pgn());
-            setBoard(chess.fen());
+            fetch(`https://ipfs.io/ipfs/${position.pgn}`)
+                .then(res => res.text())
+                .then(pgn => {
+                    chess.load_pgn(pgn);
+                    setPgn(chess.pgn());
+                    setBoard(chess.fen());        
+                })    
         }
         
         if (position) {
