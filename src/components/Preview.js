@@ -33,12 +33,15 @@ const Preview = props => {
                 <h1 className= "game-name">{black_name}</h1>    
             </div>
             <div className="wrapper-button-preview">
-                <BuyButton 
+                {window.ethereum
+                ? <BuyButton 
                     account={currentAccount}
                     price={token.price}
                     tokenID={tokenID}
                 >
                 </BuyButton>
+                : null
+                }   
             </div>
         </div>
     );

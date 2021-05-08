@@ -4,8 +4,7 @@ import './Chessboard.css'
 import { useSelector } from 'react-redux';
 import BuyButton from './BuyButton';
 
-const ipfsHttpClient = require('ipfs-http-client');
-const ipfs = ipfsHttpClient("https://ipfs.infura.io");
+const IPFS = require('ipfs-core');
 
 const Chess = require('chess.js');
 const chess = new Chess();
@@ -59,8 +58,11 @@ const ChessboardWrapper = () => {
 
     useEffect(() => {
         async function fetchPGN() {
-            const data = ipfs.cat(position?.pgn);
-            chess.load_pgn(data.toString());
+            const ipfs = await IPFS.create()
+
+            for await (const chunk of ipfs.cat(position?.pgn)) {
+                chess.load_pgn(chunk.toString());
+            };
 
             setPgn(chess.pgn());
             setBoard(chess.fen());
@@ -110,7 +112,7 @@ const ChessboardWrapper = () => {
                         : null
                     }
                     {
-                        position
+                        position && window.ethereum
                         ? <BuyButton
                                 account={currentAccount}
                                 price={position.price}
