@@ -3,6 +3,7 @@ import Chessboard from 'chessboardjsx';
 import './Chessboard.css'
 import { useSelector } from 'react-redux';
 import BuyButton from './BuyButton';
+import tokenOwner from '../tokenOwner'
 
 const fetch = require('node-fetch');
 const Chess = require('chess.js');
@@ -15,6 +16,7 @@ const ChessboardWrapper = () => {
     const [orientation, setOrientation] = useState('white');
     const [whiteName, setWhiteName] = useState('')
     const [blackName, setBlackName] = useState('')
+    const [tokenHolder, setTokenHolder] = useState('')
 
     const boardSelector = useSelector(state => state.boardPosition);
     const { position } = boardSelector;
@@ -71,6 +73,11 @@ const ChessboardWrapper = () => {
             const names = position.name.split(' v. ');
             setWhiteName(names[0])
             setBlackName(names[1])
+
+            if (window.ethereum) {
+                tokenOwner(position.tokenID)
+                .then(res => setTokenHolder(res))
+            }
         }
 
     }, [position]);
@@ -118,12 +125,12 @@ const ChessboardWrapper = () => {
                             />
                         : null
                     }
+                    {tokenHolder
+                        ? <h1>Owner: {tokenHolder}</h1>
+                        : null
+                    }
                 </div>
-                
-
         </div>
-            
-            
             
         </>
     );
