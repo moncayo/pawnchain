@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import tokenAvailability from '../tokenAvailability';
 
 const { ethers } = require('ethers');
 const pawnchainAbi = require('../abi/Pawnchain.json').abi
@@ -9,9 +8,25 @@ const BuyButton = props => {
     const [available, setAvailability] = useState(false)
 
     useEffect(() => {
-        if (window.ethereum) {
-            tokenAvailability(tokenID)
-            .then(res => setAvailability(res))
+        if (window.ethereum.isConnected()) {
+            try {
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+                provider.listAccounts()
+                    .then(wallet => {
+                        if (wallet.length) {
+                            const signer = provider.getSigner();
+                            const pawnchainAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+                    
+                            const pawnchainContract = new ethers.Contract(pawnchainAddress, pawnchainAbi, signer);
+            
+                            pawnchainContract.ownerOf(tokenID)
+                            .then(res => setAvailability(res === process.env.REACT_APP_CONTRACT_ADDRESS));    
+                        }
+                    })
+            } catch (err) {
+                console.log(err)
+            }
         }
     })
 
@@ -33,7 +48,7 @@ const BuyButton = props => {
         <div>
         {available 
         ? <button className="gif-bid-button" onClick={buyToken}> <div className="gif-bid-button--after"/>Ξ {price}</button>
-        : <button className="gif-bid-button" disabled={available}>SOLD</button>
+        : <button className="gif-bid-button" disabled={available}>UNAVAILABLE</button>
         }
         </div>
     );

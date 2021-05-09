@@ -3,11 +3,11 @@ import Chessboard from 'chessboardjsx';
 import './Chessboard.css'
 import { useSelector } from 'react-redux';
 import BuyButton from './BuyButton';
-import tokenOwner from '../tokenOwner'
 
 const fetch = require('node-fetch');
 const Chess = require('chess.js');
 const chess = new Chess();
+const ethers = require('ethers');
 
 const ChessboardWrapper = () => {    
     const [pgn, setPgn] = useState('')
@@ -74,9 +74,22 @@ const ChessboardWrapper = () => {
             setWhiteName(names[0])
             setBlackName(names[1])
 
-            if (window.ethereum) {
-                tokenOwner(position.tokenID)
-                .then(res => setTokenHolder(res))
+            if (window.ethereum.isConnected()) {
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                provider.listAccounts()
+                    .then(wallet => {
+                        if (wallet.length) {
+                            const signer = provider.getSigner();
+                            const pawnchainAbi = require('../abi/Pawnchain.json').abi
+                            const pawnchainAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+                            
+                            const pawnchainContract = new ethers.Contract(pawnchainAddress, pawnchainAbi, signer);
+                        
+                            pawnchainContract.ownerOf(position.tokenID)
+                                .then(hodl => setTokenHolder(hodl))
+                        }
+                    })
+               
             }
         }
 
@@ -117,7 +130,7 @@ const ChessboardWrapper = () => {
                         : null
                     }
                     {
-                        position && window.ethereum
+                        position
                         ? <BuyButton
                                 account={currentAccount}
                                 price={position.price}
