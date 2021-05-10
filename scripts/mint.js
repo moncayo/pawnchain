@@ -88,10 +88,29 @@ function mintToken(hash, price) {
     const pawnchainAbi = require(pawnchainJsonFile).abi;
     const pawnchainContract = new ethers.Contract(pawnchainAddress, pawnchainAbi, wallet);
 
-    pawnchainContract.mintPGN(hash, price, {
-        gasLimit: 8000000
+    const readline = require('readline').createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    pawnchainContract.estimateGas.mintPGN(hash, price, {
+        gasLimit:1000000000
     })
-    .catch(e => console.log(e));
+    .then(tx => {
+        console.log(`estimated gas price: ${ethers.utils.formatEther(tx.toString())} ETH / ${ethers.utils.formatUnits(tx.toString(), 'gwei')} gwei`)
+        readline.question('proceed? (y/n): ', answer => {
+            if (answer === 'y') {
+                pawnchainContract.mintPGN(hash, price, {
+                    gasLimit: tx.toBigInt()
+                })
+                .then(res => console.log(`tx hash: ${res.hash}`))
+                .catch(e => console.log(e))
+            } else {
+                throw new Error('ABORTING TX')
+            } 
+            readline.close();
+        })
+    })
 
     return true;
 }
