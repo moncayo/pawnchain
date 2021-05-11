@@ -23,7 +23,7 @@
 .chess-desc-container{
     position:relative;
     width:30rem;
-    height:30rem;
+    height:35rem;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -98,7 +98,7 @@
     margin: 15px 0;
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .name-wrapper{
@@ -109,8 +109,30 @@
     color: #f4efdc;
 }
 
+.owner-wrapper{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 .discription-wrapper{
     color: #e4e3de;
     text-align: justify;  /* For Edge */
     text-align-last: left;
+    display: flex;
+
+}
+
+.owner-container{
+    font-size: 1.5em;
+    font-family:  'Roboto', sans-serif;
+    font-weight: 400;
+    color: white;
+    display: flex;
+    margin-top: 0;
+    margin-bottom: .2em;
+}
+
+.address-container{
+    margin: 0;
 }

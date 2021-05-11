@@ -74,7 +74,7 @@ const ChessboardWrapper = () => {
             setWhiteName(names[0])
             setBlackName(names[1])
 
-            if (window.ethereum.isConnected()) {
+            if (window.ethereum) {
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
                 provider.listAccounts()
                     .then(wallet => {
@@ -119,7 +119,8 @@ const ChessboardWrapper = () => {
                 </div>
 
                 
-                <div className="chess-desc-container"> 
+                { whiteName !== ""
+                ?<div className="chess-desc-container"> 
                     {whiteName || blackName
                         ?<div className="discription-wrapper">
                             <h1 className="name-wrapper">{whiteName}</h1>
@@ -127,6 +128,10 @@ const ChessboardWrapper = () => {
                             <h1 className="name-wrapper">{blackName}</h1>
                             <p className="discription-wrapper">{position.description}</p>
                          </div>
+                        : null
+                    }
+                    {tokenHolder
+                        ? <div className ="owner-wrapper"><h1 className ="owner-container">Owner</h1><h2 className="address-container">{tokenHolder}</h2></div>
                         : null
                     }
                     {
@@ -138,11 +143,10 @@ const ChessboardWrapper = () => {
                             />
                         : null
                     }
-                    {tokenHolder
-                        ? <h1>Owner: {tokenHolder}</h1>
-                        : null
-                    }
+
                 </div>
+                : null
+                }
         </div>
             
         </>

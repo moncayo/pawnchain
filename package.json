@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@chrisoakman/chessboardjs": "^1.0.0",
+    "@metamask/onboarding": "^1.0.0",
     "@openzeppelin/contracts": "^4.0.0",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",

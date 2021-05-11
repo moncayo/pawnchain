@@ -15,7 +15,7 @@ function withdraw() {
     const pawnchainContract = new ethers.Contract(pawnchainAddress, pawnchainAbi, wallet);
 
     pawnchainContract.withdraw()
-        .then(tx => console.log(tx))
+        .then(tx => console.log(`tx hash: ${tx.hash}`))
         .catch(e => console.log(e))
 }
 

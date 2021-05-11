@@ -1,14 +1,15 @@
 .home{
     background:rgb(17, 49, 94);
+    height: auto;
+    margin-bottom: 50px;
 }
 
 .chess-wrapper{
     width: 100vw -5px;
-    height: auto;
+    height: 100%;
     margin: auto;
     position:relative;
     padding: 50px 0px;
-    overflow-x: hidden;
 }
 
 .preview-wrapper{

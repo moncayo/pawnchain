@@ -8,7 +8,7 @@ const BuyButton = props => {
     const [available, setAvailability] = useState(false)
 
     useEffect(() => {
-        if (window.ethereum.isConnected()) {
+        if (window.ethereum) {
             try {
                 const provider = new ethers.providers.Web3Provider(window.ethereum);
 

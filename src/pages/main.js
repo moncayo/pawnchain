@@ -4,6 +4,7 @@ import ChessboardWrapper from '../components/Chessboard';
 import Preview from '../components/Preview';
 import Navbar from '../components/Navbar';
 import './main.css'
+import Loading from "../components/loading/loading.js"
 
 import { listTokens } from '../actions/tokenActions';
 
@@ -28,7 +29,7 @@ const MainPage = () => {
             <div className="chess-wrapper">
                 {   !loading 
                     ? <ChessboardWrapper/>
-                    : <h1>Loading...</h1> 
+                    : <Loading/>
                 }
             </div>
             {
@@ -56,7 +57,7 @@ const MainPage = () => {
                                         />
                                     </div>
                         })
-                        : <h1>Loading...</h1>
+                        : <Loading/>
                     }
             </div>
         </div>
