@@ -5,16 +5,14 @@ import Preview from '../components/Preview';
 import Navbar from '../components/Navbar';
 import './main.css'
 import Loading from "../components/loading/loading.js"
-
 import { listTokens } from '../actions/tokenActions';
 
 require('../config/firebaseConfig');
 require('dotenv').config();
 
-//TODO: replace LOADING with loading spinners
-
 const MainPage = () => {    
     const dispatch = useDispatch();
+    const CHAIN_ID = "3"
 
     const tokenSelector = useSelector(state => state.tokens);
     const { tokens, loading } = tokenSelector;
@@ -26,6 +24,10 @@ const MainPage = () => {
     return (
         <div className="home" id="top">
             <Navbar/>
+            {
+            window.ethereum.networkVersion === CHAIN_ID
+            ?
+            <div>
             <div className="chess-wrapper">
                 {   !loading 
                     ? <ChessboardWrapper/>
@@ -60,6 +62,9 @@ const MainPage = () => {
                         : <Loading/>
                     }
             </div>
+            </div>
+            : null
+            }
         </div>
     );
 };

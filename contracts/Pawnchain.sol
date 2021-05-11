@@ -18,6 +18,10 @@ contract Pawnchain is ERC721URIStorage, Ownable, IERC721Receiver {
     constructor() ERC721("Pawnchain", "PAWN") Ownable() {
         _tokenCounter = 0;
     }
+
+    function _baseURI() pure internal override returns (string memory) {
+        return "ipfs://";
+    }
     
     /**
         @dev Mint an NFT representing a chess game 

@@ -19,8 +19,6 @@
  */
 
 const HDWalletProvider = require('@truffle/hdwallet-provider');
-// const infuraKey = "fj4jll3k.....";
-//
 require('dotenv').config();
 
 module.exports = {
@@ -46,46 +44,40 @@ module.exports = {
      port: 7545,            // Standard Ethereum port (default: none)
      network_id: "*",       // Any network (default: none)
     },
+
     live: {
       provider: () => new HDWalletProvider({
         mnemonic: process.env.MNEMONIC,
         providierOrUrl: process.env.INFURA_MAINNET,
         addressIndex: 0,
-        chainId: 1
       }),
       network_id: 1,
       gas: 5500000,
       timeoutBlocks: 100,
     },
-    // Another network with more advanced options...
-    // advanced: {
-    // port: 8777,             // Custom port
-    // network_id: 1342,       // Custom network
-    // gas: 8500000,           // Gas sent with each transaction (default: ~6700000)
-    // gasPrice: 20000000000,  // 20 gwei (in wei) (default: 100 gwei)
-    // from: <address>,        // Account to send txs from (default: accounts[0])
-    // websocket: true        // Enable EventEmitter interface for web3 (default: false)
-    // },
-    // Useful for deploying to a public network.
-    // NB: It's important to wrap the provider as a function.
+
     ropsten: {
       provider: () => new HDWalletProvider({
         mnemonic: process.env.MNEMONIC, 
         providerOrUrl: process.env.INFURA_ROPSTEN,
         addressIndex: 0,
-        chainId: 3
       }),
       network_id: 3,       // Ropsten's id
       gas: 5500000,        // Ropsten has a lower block limit than mainnet
       timeoutBlocks: 50,  // # of blocks before a deployment times out  (minimum/default: 50)
       skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
     },
-    // Useful for private networks
-    // private: {
-    // provider: () => new HDWalletProvider(mnemonic, `https://network.io`),
-    // network_id: 2111,   // This network is yours, in the cloud.
-    // production: true    // Treats this network as if it was a public net. (default: false)
-    // }
+
+    rinkeby: {
+      provider: () => new HDWalletProvider({
+        mnemonic: process.env.MNEMONIC,
+        providerOrUrl: process.env.INFURA_RINKEBY,
+      }),
+      network_id: 4,
+      gas: 5500000,
+      timeoutBlocks: 50,
+      skipDryRun: true
+    },
   },
 
   // Set default mocha options here, use special reporters etc.
