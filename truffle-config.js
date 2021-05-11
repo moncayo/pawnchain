@@ -72,6 +72,7 @@ module.exports = {
       provider: () => new HDWalletProvider({
         mnemonic: process.env.MNEMONIC,
         providerOrUrl: process.env.INFURA_RINKEBY,
+        addressIndex: 0
       }),
       network_id: 4,
       gas: 5500000,

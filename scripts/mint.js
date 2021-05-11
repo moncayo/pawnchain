@@ -94,7 +94,7 @@ function mintToken(hash, price) {
     });
 
     pawnchainContract.estimateGas.mintPGN(hash, price, {
-        gasLimit:1000000000
+        gasLimit: 1000000000
     })
     .then(tx => {
         console.log(`estimated gas price: ${ethers.utils.formatEther(tx.toString())} ETH / ${ethers.utils.formatUnits(tx.toString(), 'gwei')} gwei`)
@@ -103,7 +103,10 @@ function mintToken(hash, price) {
                 pawnchainContract.mintPGN(hash, price, {
                     gasLimit: tx.toBigInt()
                 })
-                .then(res => console.log(`tx hash: ${res.hash}`))
+                .then(res => {
+                    console.log('Token minted...')
+                    console.log(`tx hash: ${res.hash}`)
+                })
                 .catch(e => console.log(e))
             } else {
                 throw new Error('ABORTING TX')
@@ -113,7 +116,7 @@ function mintToken(hash, price) {
     })
 
     return true;
-}
+}   
 
 /**
  * @dev executes the script that uploads NFT assets and mints token
@@ -163,26 +166,22 @@ async function scriptExecution(pgn_filename, price) {
 
     const eth_to_wei = ethers.utils.parseEther(price);
     
-    try {
-        if (mintToken(jsonData.IpfsHash, eth_to_wei)) {
-            const ref = firebase.database().ref('/').push();
-            ref.set({
-                'name': nameData,
-                'image': gifData.IpfsHash,
-                'pgn': pgnData.IpfsHash,
-                'description': descriptionData,
-                'price': price,
-            })
-            .catch(e => console.log(e));
-            console.log('\nToken minted...')
-        }
-    } catch (err) {
-        console.log(err)
-    }
+    mintToken(jsonData.IpfsHash, eth_to_wei);
+
+    const ref = firebase.database().ref('/').push();
+    ref.set({
+        'name': nameData,
+        'image': gifData.IpfsHash,
+        'pgn': pgnData.IpfsHash,
+        'description': descriptionData,
+        'price': price,
+    })
+    .catch(e => console.log(e));    
+    console.log("Pushing to database...")
+    firebase.database().goOffline();
 }
 
 // main script -- nodejs scripts/node.js {filename (*.pgn)} {price (ETH)}
 const args = process.argv.slice(2);
 const filePath = path.join(__dirname, 'pgn', args[0]);
 scriptExecution(filePath, args[1]).catch(e => console.log(e));
-firebase.database().goOffline();
