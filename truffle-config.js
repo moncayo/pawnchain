@@ -47,7 +47,7 @@ module.exports = {
 
     live: {
       provider: () => new HDWalletProvider({
-        mnemonic: process.env.MNEMONIC,
+        privateKeys: [process.env.PRIVATE_KEY],
         providierOrUrl: process.env.INFURA_MAINNET,
         addressIndex: 0,
       }),
@@ -58,7 +58,7 @@ module.exports = {
 
     ropsten: {
       provider: () => new HDWalletProvider({
-        mnemonic: process.env.MNEMONIC, 
+        privateKeys: [process.env.PRIVATE_KEY],
         providerOrUrl: process.env.INFURA_ROPSTEN,
         addressIndex: 0,
       }),
@@ -70,7 +70,7 @@ module.exports = {
 
     rinkeby: {
       provider: () => new HDWalletProvider({
-        mnemonic: process.env.MNEMONIC,
+        privateKeys: [process.env.PRIVATE_KEY],
         providerOrUrl: process.env.INFURA_RINKEBY,
         addressIndex: 0
       }),

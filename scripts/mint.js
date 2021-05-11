@@ -79,7 +79,7 @@ async function uploadJSONtoIPFS(jsonBody) {
 function mintToken(hash, price) {
     const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_RINKEBY);
     
-    const signer = new ethers.Wallet.fromMnemonic(process.env.MNEMONIC, process.env.WALLET_PATH)
+    const signer = new ethers.Wallet(process.env.PRIVATE_KEY)
     
     const wallet = signer.connect(provider);
     const pawnchainAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
@@ -176,9 +176,8 @@ async function scriptExecution(pgn_filename, price) {
         'description': descriptionData,
         'price': price,
     })
+    .then(() => console.log("Pushing to database..."))
     .catch(e => console.log(e));    
-    console.log("Pushing to database...")
-    firebase.database().goOffline();
 }
 
 // main script -- nodejs scripts/node.js {filename (*.pgn)} {price (ETH)}
