@@ -77,7 +77,7 @@ async function uploadJSONtoIPFS(jsonBody) {
  * 
  */
 function mintToken(hash, price) {
-    const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_RINKEBY);
+    const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_MAINNET);
     
     const signer = new ethers.Wallet(process.env.PRIVATE_KEY)
     

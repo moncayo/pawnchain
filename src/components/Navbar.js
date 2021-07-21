@@ -39,7 +39,7 @@ const Navbar = () => {
 
     return (
         <div className="nav-wrapper">
-            <h1 className="logo-text">Pawnchain</h1> 
+            <h1 className="logo-text">Pawnchain.io</h1> 
             { currentAccount ? <h1 className="address-container">{currentAccount}</h1> : <div className="connect-button-wrapper"> 
                 <button className="connect-button" onClick={connectWallet}>
                 {!MetaMaskOnboarding.isMetaMaskInstalled()

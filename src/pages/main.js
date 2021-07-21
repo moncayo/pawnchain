@@ -12,7 +12,7 @@ require('dotenv').config();
 
 const MainPage = () => {    
     const dispatch = useDispatch();
-    const CHAIN_ID = "4"
+    const CHAIN_ID = "1";
 
     const tokenSelector = useSelector(state => state.tokens);
     const { tokens, loading } = tokenSelector;

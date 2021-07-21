@@ -79,14 +79,4 @@ contract Pawnchain is ERC721URIStorage, Ownable, IERC721Receiver {
         returns (bytes4) {
             return this.onERC721Received.selector;
         }
-
-    /**
-        @dev Change price of token
-
-        @param _tokenID -- tokenID to change the price of
-        @param _price -- new price to set
-     */
-    function changePrice(uint256 _tokenID, uint256 _price) external onlyOwner {
-        _prices[_tokenID] = _price;
-    }
 }

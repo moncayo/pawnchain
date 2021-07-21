@@ -87,6 +87,7 @@ const ChessboardWrapper = () => {
                         
                             pawnchainContract.ownerOf(position.tokenID)
                                 .then(hodl => setTokenHolder(hodl))
+                                .catch(e => console.log('ERR'))
                         }
                     })
                
