@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const { ethers } = require('ethers');
 const pawnchainAbi = require('../abi/Pawnchain.json').abi
 
 const BuyButton = props => {
     const { account, price, tokenID } = props;
-
+    const accountStatus = useSelector(state => state.accountStatus);
+    const { currentAccount } = accountStatus;
+    
     const buyToken = () => {
-        if (window.ethereum) {
+        if (window.ethereum && currentAccount) {
              window.ethereum.request({
                 method: 'eth_sendTransaction',
                 params: [
@@ -19,6 +22,8 @@ const BuyButton = props => {
                     }
                 ]
             })
+        } else {
+            alert("Connect your MetaMask wallet to buy!");
         }
     }
 
