@@ -12,7 +12,6 @@ require('dotenv').config();
 
 const MainPage = () => {    
     const dispatch = useDispatch();
-    const CHAIN_ID = "1";
 
     const tokenSelector = useSelector(state => state.tokens);
     const { tokens, loading } = tokenSelector;
@@ -24,9 +23,6 @@ const MainPage = () => {
     return (
         <div className="home" id="top">
             <Navbar/>
-            {
-            window.ethereum && window.ethereum.networkVersion === CHAIN_ID
-            ?
             <div>
             <div className="chess-wrapper">
                 {   !loading 
@@ -63,8 +59,6 @@ const MainPage = () => {
                     }
             </div>
             </div>
-            : null
-            }
         </div>
     );
 };

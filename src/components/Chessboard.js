@@ -74,11 +74,7 @@ const ChessboardWrapper = () => {
             setWhiteName(names[0])
             setBlackName(names[1])
 
-            if (window.ethereum) {
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
-                provider.listAccounts()
-                    .then(wallet => {
-                        if (wallet.length) {
+                const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_MAINNET);
                             const signer = provider.getSigner();
                             const pawnchainAbi = require('../abi/Pawnchain.json').abi
                             const pawnchainAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
@@ -88,10 +84,6 @@ const ChessboardWrapper = () => {
                             pawnchainContract.ownerOf(position.tokenID)
                                 .then(hodl => setTokenHolder(hodl))
                                 .catch(e => console.log('ERR'))
-                        }
-                    })
-               
-            }
         }
 
     }, [position]);
