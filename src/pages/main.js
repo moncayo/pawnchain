@@ -25,7 +25,7 @@ const MainPage = () => {
         <div className="home" id="top">
             <Navbar/>
             {
-            window.ethereum.networkVersion === CHAIN_ID
+            window.ethereum && window.ethereum.networkVersion === CHAIN_ID
             ?
             <div>
             <div className="chess-wrapper">
