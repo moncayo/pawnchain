@@ -3,7 +3,7 @@ const ethers = require('ethers');
 require('dotenv').config();
 
 function withdraw() {
-    const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_ROPSTEN);
+    const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_MAINNET);
     
     const signer = new ethers.Wallet.fromMnemonic(process.env.MNEMONIC, process.env.WALLET_PATH)
     
