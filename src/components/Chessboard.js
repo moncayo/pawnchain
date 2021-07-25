@@ -9,6 +9,8 @@ const Chess = require('chess.js');
 const chess = new Chess();
 const ethers = require('ethers');
 
+require('dotenv').config();
+
 const ChessboardWrapper = () => {    
     const [pgn, setPgn] = useState('')
     const [board, setBoard] = useState('')
@@ -74,16 +76,15 @@ const ChessboardWrapper = () => {
             setWhiteName(names[0])
             setBlackName(names[1])
 
-                const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_MAINNET);
-                            const signer = provider.getSigner();
+            const provider = new ethers.providers.JsonRpcProvider(`https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_MAINNET_PROJECTID}`);
                             const pawnchainAbi = require('../abi/Pawnchain.json').abi
                             const pawnchainAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
                             
-                            const pawnchainContract = new ethers.Contract(pawnchainAddress, pawnchainAbi, signer);
+                            const pawnchainContract = new ethers.Contract(pawnchainAddress, pawnchainAbi, provider);
                         
                             pawnchainContract.ownerOf(position.tokenID)
                                 .then(hodl => setTokenHolder(hodl))
-                                .catch(e => console.log('ERR'))
+                                .catch(e => console.log(e))
         }
 
     }, [position]);
